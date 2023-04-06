@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>test</title>
-    <url>/2023/04/06/test/</url>
-    <content><![CDATA[<p>看看效果111发</p>
-]]></content>
-      <tags>
-        <tag>test</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>test_img</title>
     <url>/2023/04/06/test-img/</url>
     <content><![CDATA[]]></content>
@@ -31,6 +22,15 @@
 
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>test</title>
+    <url>/2023/04/06/test/</url>
+    <content><![CDATA[<p>看看效果111发</p>
+]]></content>
+      <tags>
+        <tag>test</tag>
+      </tags>
   </entry>
   <entry>
     <title>testlong</title>
