@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>YHYJ的奇異水果店</title>
-  <icon>http://example.com/icon.png</icon>
+  <icon>http://yhyj.xyz/icon.png</icon>
   
-  <link href="http://example.com/atom.xml" rel="self"/>
+  <link href="http://yhyj.xyz/atom.xml" rel="self"/>
   
-  <link href="http://example.com/"/>
+  <link href="http://yhyj.xyz/"/>
   <updated>2023-04-06T14:33:36.995Z</updated>
-  <id>http://example.com/</id>
+  <id>http://yhyj.xyz/</id>
   
   <author>
     <name>YHYJ</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title></title>
-    <link href="http://example.com/2023/04/06/index/"/>
-    <id>http://example.com/2023/04/06/index/</id>
+    <link href="http://yhyj.xyz/2023/04/06/index/"/>
+    <id>http://yhyj.xyz/2023/04/06/index/</id>
     <published>2023-04-06T14:33:36.995Z</published>
     <updated>2023-04-06T14:33:36.995Z</updated>
     
