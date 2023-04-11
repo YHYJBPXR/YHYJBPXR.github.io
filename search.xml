@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title></title>
-    <url>/2023/04/06/index/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>Hello World</title>
     <url>/2023/04/07/Hello-World/</url>
     <content><![CDATA[<h1 id="未竟之旅"><a href="#未竟之旅" class="headerlink" title="未竟之旅"></a>未竟之旅</h1><p>记录一下第一篇文章</p>
@@ -31,7 +26,7 @@
   <entry>
     <title>数字电路复习</title>
     <url>/2023/04/11/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%E5%A4%8D%E4%B9%A0/</url>
-    <content><![CDATA[<p>考试周到了，快死掉了，赶紧复习。</p>
+    <content><![CDATA[<p>考试周到了，快死掉了，赶紧复习。（因为还不习惯latex的语法，所以有些内容放不上来，只能文字叙述）</p>
 <p>总结一下数电要考的重点内容？应该是，具体的题目参看课本例题和课后作业。</p>
 <span id="more"></span>
 
@@ -51,13 +46,13 @@
 <li>最小项</li>
 <li>最大项</li>
 </ul>
-<h3 id="逻辑函数的化简"><a href="#逻辑函数的化简" class="headerlink" title="逻辑函数的化简"></a>逻辑函数的化简</h3><h3 id="代数化简法"><a href="#代数化简法" class="headerlink" title="代数化简法"></a>代数化简法</h3><ul>
+<h3 id="逻辑函数的化简"><a href="#逻辑函数的化简" class="headerlink" title="逻辑函数的化简"></a>逻辑函数的化简</h3><h4 id="代数化简法"><a href="#代数化简法" class="headerlink" title="代数化简法"></a>代数化简法</h4><ul>
 <li>并项法</li>
 <li>吸收法</li>
 <li>消去法</li>
 <li>配项法</li>
 </ul>
-<h3 id="卡诺图化简法"><a href="#卡诺图化简法" class="headerlink" title="卡诺图化简法"></a>卡诺图化简法</h3><p>卡诺图的画法</p>
+<h4 id="卡诺图化简法"><a href="#卡诺图化简法" class="headerlink" title="卡诺图化简法"></a>卡诺图化简法</h4><p>卡诺图的画法</p>
 <p>卡诺图的化简</p>
 <p>约束项</p>
 <h2 id="第三章——组合逻辑电路分析和设计（主要是中型组合逻辑元件，还有设计题）"><a href="#第三章——组合逻辑电路分析和设计（主要是中型组合逻辑元件，还有设计题）" class="headerlink" title="第三章——组合逻辑电路分析和设计（主要是中型组合逻辑元件，还有设计题）"></a>第三章——组合逻辑电路分析和设计（主要是中型组合逻辑元件，还有设计题）</h2><h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>了解基本逻辑门电路</p>
@@ -70,14 +65,14 @@
 </ol>
 <p>逻辑函数形式的变换</p>
 <p>设计组合逻辑电路</p>
-<h3 id="竞争与险象"><a href="#竞争与险象" class="headerlink" title="竞争与险象"></a>竞争与险象</h3><p>判断险象</p>
+<h3 id="竞争与险象"><a href="#竞争与险象" class="headerlink" title="竞争与险象"></a>竞争与险象</h3><p><strong>判断险象</strong></p>
 <p>有无<strong>同时</strong>出现原变量与反变量</p>
 <ul>
 <li>或形式：0型险象</li>
 <li>与形式：1型险象</li>
 </ul>
 <p>卡诺圈相切法</p>
-<p>险象的消除</p>
+<p><strong>险象的消除</strong></p>
 <ol>
 <li>增加冗余项<ol>
 <li>代数定理增加</li>
@@ -101,7 +96,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="译码器"><a href="#译码器" class="headerlink" title="译码器"></a>译码器</h4><p>端口：二进制输入端、能使端、电平信号输出端</p>
+<h4 id="译码器（熟练）"><a href="#译码器（熟练）" class="headerlink" title="译码器（熟练）"></a>译码器（熟练）</h4><p>端口：二进制输入端、能使端、电平信号输出端</p>
 <p>输出表达式：每项输出对应最小项的非</p>
 <p>功能表</p>
 <p>器件图</p>
@@ -173,5 +168,10 @@
       <tags>
         <tag>Digital circuits</tag>
       </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2023/04/06/index/</url>
+    <content><![CDATA[]]></content>
   </entry>
 </search>
