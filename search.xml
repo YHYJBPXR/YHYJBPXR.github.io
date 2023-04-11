@@ -12,7 +12,10 @@
 <p>瞎寄吧说了半天，希望这个博客能活得长一点，能多分享技术，暂定今年发表100篇技术博客捏~ (￣▽￣) ~*（虽然感觉会鸽，anyway，先把flag立在这了）</p>
 <hr>
 <h2 id="有关博客搭建的事项"><a href="#有关博客搭建的事项" class="headerlink" title="有关博客搭建的事项"></a>有关博客搭建的事项</h2><p>好吧进入正题，把这次搭建博客的一些经验感悟先记录在这，供自己和他人以后参考</p>
-<h3 id="可能需要了解的前置知识"><a href="#可能需要了解的前置知识" class="headerlink" title="可能需要了解的前置知识"></a>可能需要了解的前置知识</h3><h3 id="我的博客配置"><a href="#我的博客配置" class="headerlink" title="我的博客配置"></a>我的博客配置</h3><h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><h3 id="其他插件"><a href="#其他插件" class="headerlink" title="其他插件"></a>其他插件</h3><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3>]]></content>
+<h3 id="可能需要了解的前置知识"><a href="#可能需要了解的前置知识" class="headerlink" title="可能需要了解的前置知识"></a>可能需要了解的前置知识</h3><p>什么是网站和网页？什么是服务器和域名？什么是……</p>
+<p>——互联网黑话初入门</p>
+<h3 id="我的博客配置"><a href="#我的博客配置" class="headerlink" title="我的博客配置"></a>我的博客配置</h3><p>目前采用的是Hexo</p>
+<h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><h3 id="其他插件"><a href="#其他插件" class="headerlink" title="其他插件"></a>其他插件</h3><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3>]]></content>
       <categories>
         <category>freeTalk</category>
       </categories>
