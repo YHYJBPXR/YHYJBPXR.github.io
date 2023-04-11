@@ -6,7 +6,7 @@
   <link href="https://yhyj.xyz/atom.xml" rel="self"/>
   
   <link href="https://yhyj.xyz/"/>
-  <updated>2023-04-07T08:47:28.704Z</updated>
+  <updated>2023-04-11T14:33:59.119Z</updated>
   <id>https://yhyj.xyz/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>数字电路复习</title>
+    <link href="https://yhyj.xyz/2023/04/11/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%E5%A4%8D%E4%B9%A0/"/>
+    <id>https://yhyj.xyz/2023/04/11/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%E5%A4%8D%E4%B9%A0/</id>
+    <published>2023-04-11T14:29:27.000Z</published>
+    <updated>2023-04-11T14:33:59.119Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;考试周到了，快死掉了，赶紧复习。&lt;/p&gt;
+&lt;p&gt;总结一下数电要考的重点内容？应该是，具体的题目参看课本例题和课后作业。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="inClassLearning" scheme="https://yhyj.xyz/categories/inClassLearning/"/>
+    
+    
+    <category term="Digital circuits" scheme="https://yhyj.xyz/tags/Digital-circuits/"/>
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>

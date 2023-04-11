@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title></title>
+    <url>/2023/04/06/index/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2023/04/07/Hello-World/</url>
     <content><![CDATA[<h1 id="未竟之旅"><a href="#未竟之旅" class="headerlink" title="未竟之旅"></a>未竟之旅</h1><p>记录一下第一篇文章</p>
@@ -24,8 +29,149 @@
       </tags>
   </entry>
   <entry>
-    <title></title>
-    <url>/2023/04/06/index/</url>
-    <content><![CDATA[]]></content>
+    <title>数字电路复习</title>
+    <url>/2023/04/11/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%E5%A4%8D%E4%B9%A0/</url>
+    <content><![CDATA[<p>考试周到了，快死掉了，赶紧复习。</p>
+<p>总结一下数电要考的重点内容？应该是，具体的题目参看课本例题和课后作业。</p>
+<span id="more"></span>
+
+<h1 id="数字电路复习"><a href="#数字电路复习" class="headerlink" title="数字电路复习"></a>数字电路复习</h1><h2 id="第一章——数字电路基础（ez，了解即可）"><a href="#第一章——数字电路基础（ez，了解即可）" class="headerlink" title="第一章——数字电路基础（ez，了解即可）"></a>第一章——数字电路基础（ez，了解即可）</h2><h3 id="数制转换"><a href="#数制转换" class="headerlink" title="数制转换"></a>数制转换</h3><p>进位计数制</p>
+<p>2进制与10进制（整数和小数）的相互转换——除k求余法和乘k取整法</p>
+<p>2进制与8、16进制的相互转换</p>
+<h3 id="常用编码"><a href="#常用编码" class="headerlink" title="常用编码"></a>常用编码</h3><h4 id="BCD码"><a href="#BCD码" class="headerlink" title="BCD码"></a>BCD码</h4><p>8421码，2421码（一般不考，因为有多种实现方式），余3码</p>
+<h2 id="第二章——逻辑代数（主要是逻辑表达式的化简和卡诺图的化简，其他零碎的知识点也得了解）"><a href="#第二章——逻辑代数（主要是逻辑表达式的化简和卡诺图的化简，其他零碎的知识点也得了解）" class="headerlink" title="第二章——逻辑代数（主要是逻辑表达式的化简和卡诺图的化简，其他零碎的知识点也得了解）"></a>第二章——逻辑代数（主要是逻辑表达式的化简和卡诺图的化简，其他零碎的知识点也得了解）</h2><h3 id="逻辑代数基本定理和规则"><a href="#逻辑代数基本定理和规则" class="headerlink" title="逻辑代数基本定理和规则"></a>逻辑代数基本定理和规则</h3><p>逻辑函数的表示方法及其转换</p>
+<ul>
+<li>表达式</li>
+<li>真值表</li>
+<li>卡诺图</li>
+<li>电路图</li>
+</ul>
+<p>逻辑函数的标准形式</p>
+<ul>
+<li>最小项</li>
+<li>最大项</li>
+</ul>
+<h3 id="逻辑函数的化简"><a href="#逻辑函数的化简" class="headerlink" title="逻辑函数的化简"></a>逻辑函数的化简</h3><h3 id="代数化简法"><a href="#代数化简法" class="headerlink" title="代数化简法"></a>代数化简法</h3><ul>
+<li>并项法</li>
+<li>吸收法</li>
+<li>消去法</li>
+<li>配项法</li>
+</ul>
+<h3 id="卡诺图化简法"><a href="#卡诺图化简法" class="headerlink" title="卡诺图化简法"></a>卡诺图化简法</h3><p>卡诺图的画法</p>
+<p>卡诺图的化简</p>
+<p>约束项</p>
+<h2 id="第三章——组合逻辑电路分析和设计（主要是中型组合逻辑元件，还有设计题）"><a href="#第三章——组合逻辑电路分析和设计（主要是中型组合逻辑元件，还有设计题）" class="headerlink" title="第三章——组合逻辑电路分析和设计（主要是中型组合逻辑元件，还有设计题）"></a>第三章——组合逻辑电路分析和设计（主要是中型组合逻辑元件，还有设计题）</h2><h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>了解基本逻辑门电路</p>
+<p>分析的基本步骤</p>
+<ol>
+<li>明确<strong>输入输出</strong></li>
+<li>根据电路<strong>写出逻辑表达式</strong></li>
+<li>列出<strong>真值表</strong>，根据卡诺图化简</li>
+<li>根据真值表<strong>判断功能</strong></li>
+</ol>
+<p>逻辑函数形式的变换</p>
+<p>设计组合逻辑电路</p>
+<h3 id="竞争与险象"><a href="#竞争与险象" class="headerlink" title="竞争与险象"></a>竞争与险象</h3><p>判断险象</p>
+<p>有无<strong>同时</strong>出现原变量与反变量</p>
+<ul>
+<li>或形式：0型险象</li>
+<li>与形式：1型险象</li>
+</ul>
+<p>卡诺圈相切法</p>
+<p>险象的消除</p>
+<ol>
+<li>增加冗余项<ol>
+<li>代数定理增加</li>
+<li>卡诺圈增加使其不相切</li>
+</ol>
+</li>
+<li>加选通脉冲</li>
+<li>接滤波电容</li>
+</ol>
+<h3 id="中规模组合逻辑器件"><a href="#中规模组合逻辑器件" class="headerlink" title="中规模组合逻辑器件"></a>中规模组合逻辑器件</h3><h4 id="数据选择器（熟练）"><a href="#数据选择器（熟练）" class="headerlink" title="数据选择器（熟练）"></a>数据选择器（熟练）</h4><p>端口：数据输入端、地址输入端、能使端、输出端</p>
+<p>输出表达式：每项输出对应最小项&amp;Dn</p>
+<p>功能表</p>
+<p>器件图</p>
+<p>数据选择器的拓展</p>
+<p>应用</p>
+<ul>
+<li>设计逻辑函数——<strong>只要能化成最小项，就可以用数据选择器来设计</strong><ul>
+<li>若n=变量，则按照顺序接入选择输入</li>
+<li>若n&lt;变量，则选择2个作为选择输入，画出数据选择器输出卡诺图，然后画出当前函数输出卡诺图，保证两者相等，把剩下的变量按照逻辑接入数据输入端（或者代数化简）</li>
+<li>若n&gt;变量，则剩下的空置</li>
+</ul>
+</li>
+</ul>
+<h4 id="译码器"><a href="#译码器" class="headerlink" title="译码器"></a>译码器</h4><p>端口：二进制输入端、能使端、电平信号输出端</p>
+<p>输出表达式：每项输出对应最小项的非</p>
+<p>功能表</p>
+<p>器件图</p>
+<p>应用：</p>
+<ul>
+<li>多路信号控制</li>
+<li>寻址</li>
+<li>设计逻辑函数</li>
+</ul>
+<h4 id="编码器"><a href="#编码器" class="headerlink" title="编码器"></a>编码器</h4><p>端口：电平信号输入端、二进制输出端</p>
+<p>功能表</p>
+<p>器件图</p>
+<p>二进制优先编码器</p>
+<p>可同时接收多个输入，输入下标大者优先级高，输出编码为反码形式</p>
+<h4 id="加法器"><a href="#加法器" class="headerlink" title="加法器"></a>加法器</h4><p>串行进位加法器</p>
+<p>超前进位加法器</p>
+<h4 id="比较器（基本不考）"><a href="#比较器（基本不考）" class="headerlink" title="比较器（基本不考）"></a>比较器（基本不考）</h4><h2 id="第四章——触发器（重点是触发器的功能，触发状态，转移关系）"><a href="#第四章——触发器（重点是触发器的功能，触发状态，转移关系）" class="headerlink" title="第四章——触发器（重点是触发器的功能，触发状态，转移关系）"></a>第四章——触发器（重点是触发器的功能，触发状态，转移关系）</h2><h3 id="基本RS触发器"><a href="#基本RS触发器" class="headerlink" title="基本RS触发器"></a>基本RS触发器</h3><p>结构和工作原理</p>
+<ul>
+<li>置0</li>
+<li>置1</li>
+<li>保持</li>
+<li>不定</li>
+</ul>
+<p>逻辑功能描述</p>
+<ul>
+<li>真值表（功能表）</li>
+<li>状态转移表</li>
+<li>状态方程</li>
+<li>状态转移图</li>
+<li>波形图</li>
+</ul>
+<h3 id="钟控触发器"><a href="#钟控触发器" class="headerlink" title="钟控触发器"></a>钟控触发器</h3><p>CP控制信号：CP=0，维持；CP=1，启动（高电平触发）</p>
+<p><strong>钟控RS</strong></p>
+<p><strong>钟控D</strong></p>
+<p>逻辑表达式：</p>
+<p>功能：</p>
+<ul>
+<li>保持</li>
+</ul>
+<p><strong>钟控T</strong></p>
+<p>逻辑表达式：</p>
+<p>功能：</p>
+<ul>
+<li>保持：T=0</li>
+<li>翻转：T=1</li>
+</ul>
+<p><strong>钟控JK</strong></p>
+<p>逻辑表达式：</p>
+<p>功能：</p>
+<ul>
+<li>保持：J=0，K=0</li>
+<li>置0：J=0，K=1</li>
+<li>置1：J=1，K=0</li>
+<li>翻转：J=1，K=1</li>
+</ul>
+<p><strong>触发器的触发方式</strong></p>
+<p>电平触发方式</p>
+<p>边沿触发方式</p>
+<h3 id="边沿触发器"><a href="#边沿触发器" class="headerlink" title="边沿触发器"></a>边沿触发器</h3><p>异步信号（以下仅列出功能，注意是低电平还是高电平）</p>
+<p>Rd有效：置0</p>
+<p>Sd有效：置1</p>
+<p><strong>边沿JK触发器</strong></p>
+<p><strong>维持阻塞D触发器</strong></p>
+<p>可以进行分频</p>
+]]></content>
+      <categories>
+        <category>inClassLearning</category>
+      </categories>
+      <tags>
+        <tag>Digital circuits</tag>
+      </tags>
   </entry>
 </search>
