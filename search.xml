@@ -24,6 +24,11 @@
       </tags>
   </entry>
   <entry>
+    <title></title>
+    <url>/2023/04/06/index/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>数字电路复习</title>
     <url>/2023/04/11/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%E5%A4%8D%E4%B9%A0/</url>
     <content><![CDATA[<p>考试周到了，快死掉了，赶紧复习。（因为还不习惯latex的语法，所以有些内容放不上来，只能文字叙述）</p>
@@ -139,7 +144,9 @@
 <h4 id="比较器"><a href="#比较器" class="headerlink" title="比较器"></a>比较器</h4><p>多位数比较器（单位比较器可以通过多位实现）</p>
 <p><img src="/2023/04/11/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%E5%A4%8D%E4%B9%A0/.././%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%E5%A4%8D%E4%B9%A0/image-20230412215310620.png" alt="image-20230412215310620"></p>
 <p><img src="/2023/04/11/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%E5%A4%8D%E4%B9%A0/.././%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%E5%A4%8D%E4%B9%A0/image-20230412215356105.png" alt="image-20230412215356105"></p>
-<h2 id="第四章——触发器（重点是触发器的功能，触发状态，转移关系）"><a href="#第四章——触发器（重点是触发器的功能，触发状态，转移关系）" class="headerlink" title="第四章——触发器（重点是触发器的功能，触发状态，转移关系）"></a>第四章——触发器（重点是触发器的功能，触发状态，转移关系）</h2><h3 id="基本RS触发器"><a href="#基本RS触发器" class="headerlink" title="基本RS触发器"></a>基本RS触发器</h3><p><strong>结构和原理：</strong></p>
+<h2 id="第四章——触发器"><a href="#第四章——触发器" class="headerlink" title="第四章——触发器"></a>第四章——触发器</h2><p>重点是触发器的功能，触发状态，<strong>转移方程</strong></p>
+<p>结构和原理了解即可，不了解就记住</p>
+<h3 id="基本RS触发器"><a href="#基本RS触发器" class="headerlink" title="基本RS触发器"></a>基本RS触发器</h3><p><strong>结构和原理：</strong></p>
 <p><img src="/2023/04/11/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%E5%A4%8D%E4%B9%A0/.././%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%E5%A4%8D%E4%B9%A0/image-20230412212216821.png" alt="image-20230412212216821"></p>
 <p><img src="/2023/04/11/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%E5%A4%8D%E4%B9%A0/.././%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%E5%A4%8D%E4%B9%A0/image-20230412212324383.png" alt="image-20230412212324383"></p>
 <p><strong>逻辑功能描述</strong></p>
@@ -166,14 +173,14 @@
 <p><strong>触发器的触发方式</strong></p>
 <p>电平触发方式</p>
 <p>边沿触发方式</p>
-<h3 id="边沿触发器"><a href="#边沿触发器" class="headerlink" title="边沿触发器"></a>边沿触发器</h3><p>异步信号（以下仅列出功能，注意是低电平还是高电平）</p>
+<h3 id="边沿触发器（和主从JK一起记，因为主从JK基本不用了）"><a href="#边沿触发器（和主从JK一起记，因为主从JK基本不用了）" class="headerlink" title="边沿触发器（和主从JK一起记，因为主从JK基本不用了）"></a>边沿触发器（和主从JK一起记，因为主从JK基本不用了）</h3><p>异步信号（以下仅列出功能，注意是低电平还是高电平）</p>
 <p>Rd有效：置0</p>
 <p>Sd有效：置1</p>
 <p><strong>边沿JK触发器</strong></p>
 <p>注意：</p>
 <ul>
 <li>主从JK触发器的一次翻转：如果在<strong>CP为1期间</strong>，<strong>JK信号发生改变</strong>，由于主触发器无法改变，所以当下降沿到来之时，输出信号会根据主触发器的信号而改变。但是边沿JK触发器不会有这种现象</li>
-<li>考试的时候会把输出端接到JK端，但一般都会给初始状态，记住状态转移方程或者记住J置1，K置0，异步信号优先，细心判断即可</li>
+<li>考试的时候会把输出端接到JK端等等<strong>乱飞线操作</strong>，但一般都会给初始状态，记住状态转移方程或者记住J置1，K置0，异步信号优先，<strong>细心判断</strong>即可</li>
 </ul>
 <p><strong>维持阻塞D触发器</strong></p>
 <p>可以进行分频</p>
@@ -185,10 +192,5 @@
       <tags>
         <tag>Digital circuits</tag>
       </tags>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2023/04/06/index/</url>
-    <content><![CDATA[]]></content>
   </entry>
 </search>
