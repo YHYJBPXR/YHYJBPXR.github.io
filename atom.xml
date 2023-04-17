@@ -6,7 +6,7 @@
   <link href="https://yhyj.xyz/atom.xml" rel="self"/>
   
   <link href="https://yhyj.xyz/"/>
-  <updated>2023-04-13T16:52:04.691Z</updated>
+  <updated>2023-04-17T07:06:53.114Z</updated>
   <id>https://yhyj.xyz/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>一些稀奇古怪的问题的记录与解决</title>
+    <link href="https://yhyj.xyz/2023/04/17/%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/"/>
+    <id>https://yhyj.xyz/2023/04/17/%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/</id>
+    <published>2023-04-17T07:03:50.000Z</published>
+    <updated>2023-04-17T07:06:53.114Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;如题所示，希望这些debug过程能提供一些参考，或者是自己以后忘了回来看看&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="development" scheme="https://yhyj.xyz/categories/development/"/>
+    
+    
+    <category term="deBug" scheme="https://yhyj.xyz/tags/deBug/"/>
+    
+  </entry>
   
   <entry>
     <title>数字电路复习</title>

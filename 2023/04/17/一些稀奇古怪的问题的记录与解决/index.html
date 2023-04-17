@@ -20,20 +20,23 @@
     var CONFIG = {"hostname":"yhyj.xyz","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="摆烂每一天">
+  <meta name="description" content="如题所示，希望这些debug过程能提供一些参考，或者是自己以后忘了回来看看">
 <meta property="og:type" content="article">
-<meta property="og:title" content="YHYJ的奇異水果店">
-<meta property="og:url" content="https://yhyj.xyz/2023/04/06/index/index.html">
+<meta property="og:title" content="一些稀奇古怪的问题的记录与解决">
+<meta property="og:url" content="https://yhyj.xyz/2023/04/17/%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/index.html">
 <meta property="og:site_name" content="YHYJ的奇異水果店">
-<meta property="og:description" content="摆烂每一天">
+<meta property="og:description" content="如题所示，希望这些debug过程能提供一些参考，或者是自己以后忘了回来看看">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-04-06T14:33:36.995Z">
-<meta property="article:modified_time" content="2023-04-06T14:33:36.995Z">
+<meta property="og:image" content="https://yhyj.xyz/2023/04/17/%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20230417150612785.png">
+<meta property="og:image" content="https://yhyj.xyz/2023/04/17/%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20230417150645544.png">
+<meta property="article:published_time" content="2023-04-17T07:03:50.000Z">
+<meta property="article:modified_time" content="2023-04-17T07:06:53.114Z">
 <meta property="article:author" content="YHYJ">
-<meta property="article:tag" content="博客, YHYJ">
+<meta property="article:tag" content="deBug">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yhyj.xyz/2023/04/17/%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20230417150612785.png">
 
-<link rel="canonical" href="https://yhyj.xyz/2023/04/06/index/">
+<link rel="canonical" href="https://yhyj.xyz/2023/04/17/%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/">
 
 
 <script id="page-configurations">
@@ -46,7 +49,7 @@
   };
 </script>
 
-  <title> | YHYJ的奇異水果店</title>
+  <title>一些稀奇古怪的问题的记录与解决 | YHYJ的奇異水果店</title>
   
 
 
@@ -202,7 +205,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yhyj.xyz/2023/04/06/index/">
+    <link itemprop="mainEntityOfPage" href="https://yhyj.xyz/2023/04/17/%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/touxiang.jpg">
@@ -215,7 +218,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
+          一些稀奇古怪的问题的记录与解决
         </h1>
 
         <div class="post-meta">
@@ -224,8 +227,18 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2023-04-06 22:33:36" itemprop="dateCreated datePublished" datetime="2023-04-06T22:33:36+08:00">2023-04-06</time>
+              <time title="创建时间：2023-04-17 15:03:50 / 修改时间：15:06:53" itemprop="dateCreated datePublished" datetime="2023-04-17T15:03:50+08:00">2023-04-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/development/" itemprop="url" rel="index"><span itemprop="name">development</span></a>
+                </span>
             </span>
 
           
@@ -233,7 +246,7 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
               </span>
-              <span>0</span>
+              <span>293</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -251,7 +264,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <p>如题所示，希望这些debug过程能提供一些参考，或者是自己以后忘了回来看看</p>
+<span id="more"></span>
+
+<h1 id="一些稀奇古怪的问题的记录和解决"><a href="#一些稀奇古怪的问题的记录和解决" class="headerlink" title="一些稀奇古怪的问题的记录和解决"></a>一些稀奇古怪的问题的记录和解决</h1><h2 id="chrome复制链接无法复制标题"><a href="#chrome复制链接无法复制标题" class="headerlink" title="chrome复制链接无法复制标题"></a>chrome复制链接无法复制标题</h2><p><strong>问题背景：</strong>经常在写文档或者查找资料的时候需要搜索网页，搜索完之后需要保存下来，但是chrome复制网页链接无法做到连同标题一起复制，导致回顾的时候常常不记得这个链接的大概内容，有时候一个临时文本框存了很多链接，自己看的也懵。使用edge后发现edge可以做到，就想着chrome也一定可以。</p>
+<p><strong>解决方案：</strong>谷歌插件市场下载tapcopy插件，这款插件可以实现复制链接携带标题的功能，还可以自行选择格式，例如适用于md，html，js等等，甚至可以自定义格式</p>
+<p><img src="/2023/04/17/%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/.././%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20230417150612785.png" alt="image-20230417150612785"></p>
+<p><img src="/2023/04/17/%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/.././%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20230417150645544.png" alt="image-20230417150645544"></p>
+
     </div>
 
     
@@ -266,7 +286,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://yhyj.xyz/2023/04/06/index/" title="">https://yhyj.xyz/2023/04/06/index/</a>
+    <a href="https://yhyj.xyz/2023/04/17/%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/" title="一些稀奇古怪的问题的记录与解决">https://yhyj.xyz/2023/04/17/一些稀奇古怪的问题的记录与解决/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -295,17 +315,20 @@
 
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/deBug/" rel="tag"># deBug</a>
+          </div>
 
         
 
 
         
     <div class="post-nav">
-      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2023/04/07/Hello-World/" rel="next" title="Hello World">
-      Hello World <i class="fa fa-chevron-right"></i>
+    <a href="/2023/04/11/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%E5%A4%8D%E4%B9%A0/" rel="prev" title="数字电路复习">
+      <i class="fa fa-chevron-left"></i> 数字电路复习
     </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -364,6 +387,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E5%92%8C%E8%A7%A3%E5%86%B3"><span class="nav-number">1.</span> <span class="nav-text">一些稀奇古怪的问题的记录和解决</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#chrome%E5%A4%8D%E5%88%B6%E9%93%BE%E6%8E%A5%E6%97%A0%E6%B3%95%E5%A4%8D%E5%88%B6%E6%A0%87%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text">chrome复制链接无法复制标题</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
