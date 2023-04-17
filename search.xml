@@ -24,6 +24,11 @@
       </tags>
   </entry>
   <entry>
+    <title></title>
+    <url>/2023/04/06/index/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>一些稀奇古怪的问题的记录与解决</title>
     <url>/2023/04/17/%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/</url>
     <content><![CDATA[<p>如题所示，希望这些debug过程能提供一些参考，或者是自己以后忘了回来看看</p>
@@ -253,10 +258,5 @@
       <tags>
         <tag>Digital circuits</tag>
       </tags>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2023/04/06/index/</url>
-    <content><![CDATA[]]></content>
   </entry>
 </search>
