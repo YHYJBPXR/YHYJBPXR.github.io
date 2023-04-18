@@ -6,7 +6,7 @@
   <link href="https://yhyj.xyz/atom.xml" rel="self"/>
   
   <link href="https://yhyj.xyz/"/>
-  <updated>2023-04-17T07:06:53.114Z</updated>
+  <updated>2023-04-18T16:05:56.871Z</updated>
   <id>https://yhyj.xyz/</id>
   
   <author>
@@ -15,6 +15,23 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>一些杂项</title>
+    <link href="https://yhyj.xyz/2023/04/19/%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/"/>
+    <id>https://yhyj.xyz/2023/04/19/%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/</id>
+    <published>2023-04-18T16:02:14.000Z</published>
+    <updated>2023-04-18T16:05:56.871Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt; 一些无意发现的东西&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="development" scheme="https://yhyj.xyz/categories/development/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>一些稀奇古怪的问题的记录与解决</title>
