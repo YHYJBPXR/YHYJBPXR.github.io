@@ -6,7 +6,7 @@
   <link href="https://yhyj.xyz/atom.xml" rel="self"/>
   
   <link href="https://yhyj.xyz/"/>
-  <updated>2023-04-18T16:05:56.871Z</updated>
+  <updated>2023-05-01T14:15:28.472Z</updated>
   <id>https://yhyj.xyz/</id>
   
   <author>
@@ -15,6 +15,23 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CTF中常见的编码方式和加密方法（正在施工中）</title>
+    <link href="https://yhyj.xyz/2023/05/01/CTF%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E7%BC%96%E7%A0%81%E6%96%B9%E5%BC%8F%E5%92%8C%E5%8A%A0%E5%AF%86%E6%96%B9%E6%B3%95/"/>
+    <id>https://yhyj.xyz/2023/05/01/CTF%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E7%BC%96%E7%A0%81%E6%96%B9%E5%BC%8F%E5%92%8C%E5%8A%A0%E5%AF%86%E6%96%B9%E6%B3%95/</id>
+    <published>2023-05-01T14:14:17.000Z</published>
+    <updated>2023-05-01T14:15:28.472Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;一些基础知识，了解即可&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="CTF" scheme="https://yhyj.xyz/categories/CTF/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>一些杂项</title>
