@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"yhyj.xyz","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="一点PHPtricks，正在学习更新中">
+  <meta name="description" content="一点PHPtricks，正在学习更新中 “PHP是世界上最好的语言” ^^">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PHP代码审计学习笔记（施工中）">
 <meta property="og:url" content="https://yhyj.xyz/2023/05/10/PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E6%96%BD%E5%B7%A5%E4%B8%AD%EF%BC%89/index.html">
 <meta property="og:site_name" content="YHYJ的奇異水果店">
-<meta property="og:description" content="一点PHPtricks，正在学习更新中">
+<meta property="og:description" content="一点PHPtricks，正在学习更新中 “PHP是世界上最好的语言” ^^">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-05-09T16:07:53.000Z">
-<meta property="article:modified_time" content="2023-05-09T16:13:31.453Z">
+<meta property="article:modified_time" content="2023-05-10T12:25:53.032Z">
 <meta property="article:author" content="YHYJ">
 <meta property="article:tag" content="PHP">
 <meta name="twitter:card" content="summary">
@@ -226,7 +226,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-05-10 00:07:53 / 修改时间：00:13:31" itemprop="dateCreated datePublished" datetime="2023-05-10T00:07:53+08:00">2023-05-10</time>
+              <time title="创建时间：2023-05-10 00:07:53 / 修改时间：20:25:53" itemprop="dateCreated datePublished" datetime="2023-05-10T00:07:53+08:00">2023-05-10</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -243,13 +243,13 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
               </span>
-              <span>3.7k</span>
+              <span>4.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
-              <span>3 分钟</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -262,24 +262,25 @@
 
       
         <p>一点PHPtricks，正在学习更新中</p>
+<p>“PHP是世界上最好的语言” ^^</p>
 <span id="more"></span>
 
 <h1 id="PHP代码审计学习笔记（施工中）"><a href="#PHP代码审计学习笔记（施工中）" class="headerlink" title="PHP代码审计学习笔记（施工中）"></a>PHP代码审计学习笔记（施工中）</h1><h2 id="PHP弱类型比较"><a href="#PHP弱类型比较" class="headerlink" title="PHP弱类型比较"></a>PHP弱类型比较</h2><h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><p>PHP是一门弱类型语言,这意味着同一变量可以在不同时间存放不同类型的数据。由于PHP的弱类型特征,在部分比较操作符（== 、&gt; 、&lt; 等）比较<strong>不同类型的数据</strong>时，会进行<strong>类型转换</strong>后再比较，这可能导致一些非预期的结果。</p>
 <h3 id="例子："><a href="#例子：" class="headerlink" title="例子："></a>例子：</h3><p><strong>一、字符串与整型比较</strong></p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;10&#x27;</span> == <span class="number">10</span>        <span class="comment">// true </span></span><br><span class="line"><span class="string">&#x27;10&#x27;</span> === <span class="number">10</span>       <span class="comment">// false</span></span><br><span class="line"><span class="string">&#x27;10foo&#x27;</span> &gt; <span class="number">5</span>        <span class="comment">// true </span></span><br></pre></td></tr></table></figure>
 
-<p>在 == 比较时,字符串’10’会转换为整型10，所以相等。但 === 全等比较不会发生类型转换，所以不相等。<br>在 &gt; 比较时，’10foo’ 被解析为10，所以 ‘10foo’ &gt; 5返回true。</p>
+<p>在 == 比较时，字符串’10’会转换为整型10，所以相等。但 === 全等比较不会发生类型转换，所以不相等。<br>在 &gt; 比较时，’10foo’ 被解析为10，所以 ‘10foo’ &gt; 5返回true。</p>
 <p><strong>二、空字符串与零比较</strong></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;</span> == <span class="number">0</span>           <span class="comment">// true</span></span><br><span class="line"><span class="string">&#x27;&#x27;</span> === <span class="number">0</span>          <span class="comment">// false </span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;</span> == <span class="number">0</span>           <span class="comment">// true </span></span><br><span class="line"><span class="string">&#x27;&#x27;</span> === <span class="number">0</span>          <span class="comment">// false </span></span><br></pre></td></tr></table></figure>
 
 <p> 在 == 比较中，空字符串 ‘’ 被转换为0，所以相等。但 === 全等比较不转换类型,所以不相等。</p>
 <p>注：<strong>0、[]、[0]、null</strong>和任意字符进行<strong>弱类型比较</strong>都相等</p>
 <p><strong>三、空数组与零比较</strong></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[] == <span class="number">0</span>           <span class="comment">// true</span></span><br><span class="line">[] === <span class="number">0</span>          <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[] == <span class="number">0</span>           <span class="comment">// true </span></span><br><span class="line">[] === <span class="number">0</span>          <span class="comment">// false </span></span><br></pre></td></tr></table></figure>
 
 <p> [] 被转换为0进行 == 比较，所以相等。但===不会转换类型,所以不相等。</p>
 <p><strong>四、空与 NULL 比较</strong> </p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;</span> == <span class="literal">null</span>        <span class="comment">// true</span></span><br><span class="line"><span class="string">&#x27;&#x27;</span> === <span class="literal">null</span>       <span class="comment">// false </span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;</span> == <span class="literal">null</span>        <span class="comment">// true </span></span><br><span class="line"><span class="string">&#x27;&#x27;</span> === <span class="literal">null</span>       <span class="comment">// false </span></span><br></pre></td></tr></table></figure>
 
 <p> == 比较时，null被转换为 ‘’ ，所以相等。但===不会转换类型,所以不相等。</p>
 <h3 id="常见的利用类型"><a href="#常见的利用类型" class="headerlink" title="常见的利用类型"></a>常见的利用类型</h3><h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a target="_blank" rel="noopener" href="https://flag0.com/2019/09/20/php%E5%BC%B1%E7%B1%BB%E5%9E%8B/">php弱类型、强类型总结 | flag0’s Blog</a></p>
@@ -329,12 +330,42 @@
 
 <p>攻击者发送<code>POST: &#123;&quot;name&quot;: &quot;xiaoming&#39; OR 1=1 # &quot;&#125; </code></p>
 <p>这会产生 <code>$sql = &quot;SELECT * FROM users WHERE name = &#39;xiaoming\&#39; OR 1=1 # &#39;&quot;</code>，成功SQL注入。</p>
-<p>利用十六进制绕过preg_match()preg_match()：</p>
+<p><strong>利用十六进制绕过preg_match()preg_match()：</strong></p>
 <p>在匹配字符串时不会验证十六进制编码的数据，攻击者可以利用这点绕过：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/^[\da-z]+$/i&#x27;</span>, <span class="variable">$_GET</span>[<span class="string">&#x27;input&#x27;</span>])) &#123;</span><br><span class="line">    <span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users WHERE name = <span class="subst">&#123;$_GET[&#x27;input&#x27;]&#125;</span>&quot;</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>攻击者可以发送input=0x78，这会产生 <code>$sql = &quot;SELECT * FROM users WHERE name = 0x78&quot;</code> ，成功绕过正则匹配的验证。</p>
 <p>其他更多姿势等待搜集整理，关键还是在弱类型比较中会产生<strong>类型转换</strong></p>
+<h2 id="PHP代码注入"><a href="#PHP代码注入" class="headerlink" title="PHP代码注入"></a>PHP代码注入</h2><p>（目前没遇到太多，具体操作不是很清晰）</p>
+<h3 id="简述："><a href="#简述：" class="headerlink" title="简述："></a>简述：</h3><p>PHP代码注入是一种代码执行漏洞，它允许攻击者向应用提交恶意代码，由应用执行。这通常是由于应用直接在PHP中执行<strong>用户提交的数据</strong>造成的。</p>
+<h3 id="原理：-1"><a href="#原理：-1" class="headerlink" title="原理："></a>原理：</h3><p>PHP代码注入的形成是因为PHP支持<strong>动态语句执行</strong>和<strong>变量解析替换</strong>。当用户输入的数据被直接用于动态构造语句时，攻击者可以通过特殊构造输入将其作为PHP代码执行，这就导致了代码注入。</p>
+<h3 id="简单例子："><a href="#简单例子：" class="headerlink" title="简单例子："></a>简单例子：</h3><p><strong>获取系统信息</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$input</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;input&#x27;</span>];</span><br><span class="line">    <span class="keyword">eval</span>(<span class="variable">$input</span>);  </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>访问:<code>?input=phpinfo();</code>这会执行phpinfo()函数显示PHP配置信息。</p>
+<p><strong>读取敏感文件</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$file</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="variable">$file</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>访问:<code>?file=index.php</code>这会显示index.php文件的源代码。</p>
+<p><strong>执行系统命令</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$cmd</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;cmd&#x27;</span>]; </span><br><span class="line">    <span class="title function_ invoke__">system</span>(<span class="variable">$cmd</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>访问:?cmd=whoami<br>这会执行whoami命令显示当前用户。</p>
+<p>以上样例演示了php部分函数能直接执行提交的恶意数据，导致非预期的结果，实际中可能会有多种过滤和函数禁用，需要具体情况具体分析，查阅PHP手册进行绕过</p>
+<h3 id="危险的函数："><a href="#危险的函数：" class="headerlink" title="危险的函数："></a>危险的函数：</h3><p>代码执行函数：eval()， assert(), </p>
+<p>正则匹配函数：preg_replace(), </p>
+<p>动态代码执行函数：create_function()，call_user_func()，call_user_func_array()。</p>
+<h3 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h3><p><a target="_blank" rel="noopener" href="https://3wapp.github.io/WebSecurity/php_cmdinject.html">PHP代码执行与命令注入 · Wiki | janes</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.beesfun.com/2017/04/18/PHP%E4%BB%A3%E7%A0%81%E6%B3%A8%E5%85%A5%E5%92%8C%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/">PHP代码注入和命令注入 | bees’ blog</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41901122/article/details/104244366">PHP 代码注入知识点总结_if (isset(_星球守护者的博客-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/column/166385.html">PHP代码命令注入小结 - FreeBuf网络安全行业门户</a></p>
+<p>[<a target="_blank" rel="noopener" href="https://www.cnblogs.com/jpSpaceX/articles/14900803.html">渗透测试]：PHP代码注入 - jpSpaceX - 博客园</a></p>
+<h2 id="PHP伪协议"><a href="#PHP伪协议" class="headerlink" title="PHP伪协议"></a>PHP伪协议</h2><p>（感觉遇到了会用就行，前人已经总结得很完善了，就不再造轮子了）</p>
+<p>简述：PHP伪协议是PHP代码中使用的特殊协议,它允许读取本地数据流、文件等资源。</p>
+<p>利用方式：</p>
+<p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000018991087">PHP伪协议总结 - 个人文章 - SegmentFault 思否</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wjrblogs/p/12285202.html">CTF中常用的php伪协议利用 - 1ndex- - 博客园</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.hetianlab.com/hetian/20210906145653">PHP伪协议的妙用 - 合天网安实验室</a></p>
 
     </div>
 
@@ -392,7 +423,10 @@
     <a href="/2023/05/01/CTF%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E7%BC%96%E7%A0%81%E6%96%B9%E5%BC%8F%E5%92%8C%E5%8A%A0%E5%AF%86%E6%96%B9%E6%B3%95/" rel="prev" title="CTF中常见的编码方式和加密方法（正在施工中）">
       <i class="fa fa-chevron-left"></i> CTF中常见的编码方式和加密方法（正在施工中）
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2023/05/16/CVE-2022-29221%E5%A4%8D%E7%8E%B0/" rel="next" title="CVE-2022-29221复现">
+      CVE-2022-29221复现 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -451,7 +485,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E6%96%BD%E5%B7%A5%E4%B8%AD%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">PHP代码审计学习笔记（施工中）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP%E5%BC%B1%E7%B1%BB%E5%9E%8B%E6%AF%94%E8%BE%83"><span class="nav-number">1.1.</span> <span class="nav-text">PHP弱类型比较</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86%EF%BC%9A"><span class="nav-number">1.1.1.</span> <span class="nav-text">原理：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90%EF%BC%9A"><span class="nav-number">1.1.2.</span> <span class="nav-text">例子：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%88%A9%E7%94%A8%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.3.</span> <span class="nav-text">常见的利用类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">补充：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#md5%E7%BB%95%E8%BF%87%E7%9A%84%E6%8A%80%E5%B7%A7"><span class="nav-number">1.1.3.2.1.</span> <span class="nav-text">md5绕过的技巧</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E4%BE%8B%E5%AD%90%EF%BC%9A"><span class="nav-number">1.1.3.2.2.</span> <span class="nav-text">其他例子：</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E6%96%BD%E5%B7%A5%E4%B8%AD%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">PHP代码审计学习笔记（施工中）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP%E5%BC%B1%E7%B1%BB%E5%9E%8B%E6%AF%94%E8%BE%83"><span class="nav-number">1.1.</span> <span class="nav-text">PHP弱类型比较</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86%EF%BC%9A"><span class="nav-number">1.1.1.</span> <span class="nav-text">原理：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90%EF%BC%9A"><span class="nav-number">1.1.2.</span> <span class="nav-text">例子：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%88%A9%E7%94%A8%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.3.</span> <span class="nav-text">常见的利用类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">补充：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#md5%E7%BB%95%E8%BF%87%E7%9A%84%E6%8A%80%E5%B7%A7"><span class="nav-number">1.1.3.2.1.</span> <span class="nav-text">md5绕过的技巧</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E4%BE%8B%E5%AD%90%EF%BC%9A"><span class="nav-number">1.1.3.2.2.</span> <span class="nav-text">其他例子：</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP%E4%BB%A3%E7%A0%81%E6%B3%A8%E5%85%A5"><span class="nav-number">1.2.</span> <span class="nav-text">PHP代码注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E8%BF%B0%EF%BC%9A"><span class="nav-number">1.2.1.</span> <span class="nav-text">简述：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86%EF%BC%9A-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">原理：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E4%BE%8B%E5%AD%90%EF%BC%9A"><span class="nav-number">1.2.3.</span> <span class="nav-text">简单例子：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%B1%E9%99%A9%E7%9A%84%E5%87%BD%E6%95%B0%EF%BC%9A"><span class="nav-number">1.2.4.</span> <span class="nav-text">危险的函数：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99%EF%BC%9A"><span class="nav-number">1.2.5.</span> <span class="nav-text">参考资料：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.3.</span> <span class="nav-text">PHP伪协议</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -467,7 +501,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -480,7 +514,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -527,12 +561,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">10k</span>
+    <span title="站点总字数">17k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">9 分钟</span>
+    <span title="站点阅读时长">15 分钟</span>
 </div>
 
         

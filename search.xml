@@ -1,6 +1,218 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CVE-2022-29221复现</title>
+    <url>/2023/05/16/CVE-2022-29221%E5%A4%8D%E7%8E%B0/</url>
+    <content><![CDATA[<p>上周三WEB组的任务，白神真的会上压力，不过感觉复现一个CVE提升挺大的（特别是配环境环节），一下子弄懂了好多</p>
+<span id="more"></span>
+
+<h1 id="CVE-2022-29221复现"><a href="#CVE-2022-29221复现" class="headerlink" title="CVE-2022-29221复现"></a>CVE-2022-29221复现</h1><h2 id="漏洞概述："><a href="#漏洞概述：" class="headerlink" title="漏洞概述："></a>漏洞概述：</h2><blockquote>
+<p>Smarty is a template engine for PHP, facilitating the separation of presentation (HTML/CSS) from application logic. Prior to versions 3.1.45 and 4.1.1, template authors could inject php code by choosing a malicious {block} name or {include} file name. Sites that cannot fully trust template authors should upgrade to versions 3.1.45 or 4.1.1 to receive a patch for this issue. There are currently no known workarounds.</p>
+<p>Publish Date : 2022-05-24 Last Update Date : 2022-12-08</p>
+<p><a href="https://www.cvedetails.com/cve/CVE-2022-29221/">CVE-2022-29221 : Smarty is a template engine for PHP, facilitating the separation of presentation (HTML/CSS) from application logic. Prio</a></p>
+<p>翻译：Smarty是一个PHP模板引擎，它可以使显示层(HTML/CSS)和应用逻辑分离。在3.1.45和4.1.1版本之前，模板作者可以通过选择恶意的{block}名称或{include}文件名来注入PHP代码。那些无法完全信任模板作者的网站应该升级到3.1.45或4.1.1版本，以获得此问题的补丁。目前没有已知的解决方法。</p>
+</blockquote>
+<p><strong>术语解析：</strong></p>
+<ul>
+<li>模板引擎：一种将数据和表现分离开来的机制，数据和逻辑被封装，而表现则由模板决定。</li>
+<li>显示层：也可称表现层或表示层，是软件架构的最外层，负责与用户的交互和数据的可视化。</li>
+<li>应用逻辑：也称业务逻辑，是软件开发中实现业务功能和处理业务流程的逻辑代码。</li>
+<li>注入：在计算机安全中，注入通常是指恶意的、未经验证的数据被输入到解释器里，导致未预期的命令执行或者访问未授权的数据和程序。</li>
+</ul>
+<p><strong>漏洞类型：SSTI</strong></p>
+<p>（什么是SSTI详情参考SSTI学习笔记）</p>
+<h2 id="Smarty模板概述："><a href="#Smarty模板概述：" class="headerlink" title="Smarty模板概述："></a>Smarty模板概述：</h2><p>Smarty是一个主流的采用php编写的模板引擎。其目录文件结构应如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Smarty/</span><br><span class="line">|</span><br><span class="line">|--www.demo.com</span><br><span class="line">	|</span><br><span class="line">	|--cache/*			(缓存目录)</span><br><span class="line">	|--configs/			(设置目录)</span><br><span class="line">		|--test.conf	</span><br><span class="line">	|--plugins/*</span><br><span class="line">	|--templates_c/*	(编译目录)</span><br><span class="line">	|--templates/		(模板目录)</span><br><span class="line">		|--index.tpl</span><br><span class="line">	|--WWW				(页面根目录)</span><br><span class="line">		|--index.php	</span><br><span class="line">|--libs/				(库文件)</span><br><span class="line">	|</span><br><span class="line">	|--Smarty.class.php	(核心文件)</span><br><span class="line">    |--debug.tpl</span><br><span class="line">    |--sysplugins/*</span><br><span class="line">    |--plugins/*</span><br></pre></td></tr></table></figure>
+
+<p>在配置好库文件后，就可以开始为你的网页使用Smarty了。</p>
+<p>*官方说明</p>
+<ul>
+<li>Smarty可配置四个目录，默认名称分别是 <code>templates/</code>, <code>templates_c/</code>, <code>configs/</code> 和 <code>cache/</code>。</li>
+<li>这些都分别对应Smarty类的属性定义 <a href="https://www.smarty.net/docs/zh_CN/variable.template.dir.tpl"><code>$template_dir</code></a>, <a href="https://www.smarty.net/docs/zh_CN/variable.compile.dir.tpl"><code>$compile_dir</code></a>, <a href="https://www.smarty.net/docs/zh_CN/variable.config.dir.tpl"><code>$config_dir</code></a>, 和 <a href="https://www.smarty.net/docs/zh_CN/variable.cache.dir.tpl"><code>$cache_dir</code></a>。</li>
+<li>强烈建议分别在每个使用Smarty的程序中都单独定义这些目录。</li>
+<li>你可以通过<a href="https://www.smarty.net/docs/zh_CN/api.test.install.tpl"><code>testInstall()</code></a> 来测试Smarty是否有权限读写这些目录。</li>
+</ul>
+<p>*其他</p>
+<ul>
+<li>模板目录(template dir)存放所有的模板文件，这是开发者编写和维护的目录。</li>
+<li>编译目录(compile dir)在模板文件修改后，Smarty会自动重新编译模板，生成对应的PHP文件。</li>
+<li>缓存目录(cache dir)存储渲染后的HTML内容。当模板或数据发生变化时，cache目录会被自动清空，forcing Smarty重新渲染所有模板。</li>
+</ul>
+<p>使用方式：</p>
+<p>从github上下载Smarty源码，解压后文档目录为：</p>
+<p><img src="/2023/05/16/CVE-2022-29221%E5%A4%8D%E7%8E%B0/.././CVE-2022-29221%E5%A4%8D%E7%8E%B0/image-20230516201359523.png" alt="image-20230516201359523"></p>
+<p>关键是libs文件夹，储存着渲染的核心代码。</p>
+<p>demo文件夹如图：</p>
+<p><img src="/2023/05/16/CVE-2022-29221%E5%A4%8D%E7%8E%B0/.././CVE-2022-29221%E5%A4%8D%E7%8E%B0/image-20230516201436412.png" alt="image-20230516201436412"></p>
+<p>为了使用Smarty模板，需要把libs文件夹复制到网站根目录中，然后在目录下建创两个文件夹：templates和templates_c即可。</p>
+<p>PS.在使用前，请在本地开启php环境，我采用的是phpstudy</p>
+<p>一个简单的使用示例：</p>
+<p><img src="/2023/05/16/CVE-2022-29221%E5%A4%8D%E7%8E%B0/.././CVE-2022-29221%E5%A4%8D%E7%8E%B0/image-20230516140331370.png" alt="image-20230516140331370"></p>
+<p>网页如图：</p>
+<p><img src="/2023/05/16/CVE-2022-29221%E5%A4%8D%E7%8E%B0/.././CVE-2022-29221%E5%A4%8D%E7%8E%B0/image-20230516140346510.png" alt="image-20230516140346510"></p>
+<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><h3 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h3><p>使用phpstudy搭建本地网站即可，再用phpstorm调试，调试的教程自行搜索</p>
+<h3 id="演示"><a href="#演示" class="headerlink" title="演示"></a>演示</h3><p>在github下载poc：</p>
+<p><a href="https://github.com/sbani/CVE-2022-29221-PoC">sbani/CVE-2022-29221-PoC: CVE-2022-29221 Proof of Concept Code - Smarty RCE</a></p>
+<p><img src="/2023/05/16/CVE-2022-29221%E5%A4%8D%E7%8E%B0/.././CVE-2022-29221%E5%A4%8D%E7%8E%B0/image-20230516141935696.png" alt="image-20230516141935696"></p>
+<p>代码内容如图</p>
+<p>打开网页看看效果</p>
+<p><img src="/2023/05/16/CVE-2022-29221%E5%A4%8D%E7%8E%B0/.././CVE-2022-29221%E5%A4%8D%E7%8E%B0/image-20230516142025190.png" alt="image-20230516142025190"></p>
+<p>可以看到<code>system(whoami)</code>命令已经被执行了，包括后面的ABC字符</p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>首先查看修复代码：</p>
+<p><a href="https://github.com/smarty-php/smarty/commit/64ad6442ca1da31cefdab5c9874262b702cccddd">Merge branch ‘security/blockfunctioninjection’ · smarty-php/smarty@64ad644</a></p>
+<p>关键修改的部分：</p>
+<p><img src="/2023/05/16/CVE-2022-29221%E5%A4%8D%E7%8E%B0/.././CVE-2022-29221%E5%A4%8D%E7%8E%B0/image-20230516142213673.png" alt="image-20230516142213673"></p>
+<p>同时，在修复代码中，可以看到存在漏洞的是这些文件：</p>
+<p><img src="/2023/05/16/CVE-2022-29221%E5%A4%8D%E7%8E%B0/.././CVE-2022-29221%E5%A4%8D%E7%8E%B0/image-20230516192358926.png" alt="image-20230516192358926"></p>
+<p>补充：</p>
+<p>libs/sysplugins/目录存放了Smarty模板引擎的系统插件，以``libs/sysplugins/smarty_internal_compile_block.php`为例，它是Smarty模板引擎的系统插件文件之一。其主要作用是：解析模板中的块结构，生成PHP代码，实现块的覆盖、继承和输出功能。</p>
+<p>Smarty模板中{block}块的作用：<a href="https://www.smarty.net/docs/zh_CN/language.function.block.tpl">{block} | Smarty</a></p>
+<p>简而言之，<code>&#123;block&#125;</code>可在模板上定义一块区域，以进行模板继承。</p>
+<p>子模板中的<code>&#123;block&#125;</code>区域代码，将会替换父模板对应的区域代码。</p>
+<p>另外，<code>&#123;block&#125;</code>可以设置成合并父子模板的相应区域。在子模板的<code>&#123;block&#125;</code>中定义 <code>append</code> 或 <code>prepend</code>，可以使子模板附加在父模板 <code>&#123;block&#125;</code>区域的后面或前面。 在<code>&#123;block&#125;</code>内容中使用{$smarty.block.parent}，可以让父模板的区域代码放到 子模板<code>&#123;block&#125;</code>内的任何位置。</p>
+<p>具体过程：</p>
+<p>当Smarty编译模板文件时，遇到{block}标签，会调用<code>smarty_internal_compile_block.php</code>这个系统插件进行编译。该插件会执行以下操作：</p>
+<ol>
+<li><p>获取{block}标签的name属性，作为块名。</p>
+</li>
+<li><p>如果name属性为空，则使用块内的第一个文本作为name。</p>
+</li>
+<li><p>检查是否有同名的父级块，如果有，标记为块覆盖。</p>
+</li>
+<li><p>生成块开始和结束的PHP代码</p>
+</li>
+</ol>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/* &#123;block name&#125; */</span></span><br><span class="line"><span class="comment">//块开始</span></span><br><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="comment">/* &#123;/block&#125; */</span> </span><br><span class="line"><span class="comment">//块结束</span></span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>如果标记为块覆盖，生成的PHP代码中会调用父级块。</li>
+<li>递归编译块内的内容。 </li>
+<li>如果块被留空，生成的PHP代码会直接调用父级块。</li>
+</ol>
+<p>回到漏洞，未修复前，存在漏洞的代码如下：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$output</span> = <span class="string">&quot;&lt;?php\n&quot;</span>;</span><br><span class="line"><span class="variable">$output</span> .= <span class="string">&quot;/* &#123;block <span class="subst">&#123;$_name&#125;</span>&#125; */\n&quot;</span>;	<span class="comment">//这里是注入点</span></span><br><span class="line"><span class="variable">$output</span> .= <span class="string">&quot;class <span class="subst">&#123;$_className&#125;</span> extends Smarty_Internal_Block\n&quot;</span>;</span><br><span class="line"><span class="variable">$output</span> .= <span class="string">&quot;&#123;\n&quot;</span>;</span><br><span class="line">...<span class="comment">//后面是调用那个函数的内容</span></span><br></pre></td></tr></table></figure>
+
+<p>我们来看看这段代码的结果如何：</p>
+<p>先是一个简单的例子演示，假设模板文件中存在这样的代码：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">&#123;block name=&quot;parent&quot;&#125;</span><br><span class="line">   &#123;block name=&quot;child&quot;&#125;</span><br><span class="line">       <span class="tag">&lt;<span class="name">p</span>&gt;</span>Child block<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">   &#123;/block&#125;</span><br><span class="line">&#123;/block&#125; </span><br></pre></td></tr></table></figure>
+
+<p>那么编译后生成的php代码如下：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/* &#123;block parent&#125; */</span> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">parent_child</span> <span class="keyword">extends</span> <span class="title">Smarty_Internal_Block</span></span></span><br><span class="line"><span class="class"></span>&#123; </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">callChild</span>(<span class="params"><span class="variable">$params</span>, <span class="variable">$content</span>, <span class="variable">$template</span>, &amp;<span class="variable">$repeat</span></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;&lt;p&gt;Child block&lt;/p&gt;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line"><span class="comment">/* &#123;block child&#125; */</span></span><br><span class="line"><span class="variable language_">$this</span>-&gt;_tag_stack[] = <span class="keyword">array</span>(<span class="string">&#x27;parent_child&#x27;</span>, <span class="keyword">array</span>());</span><br><span class="line"><span class="comment">/* &#123;/block&#125; */</span></span><br><span class="line"><span class="title function_ invoke__">array_pop</span>(<span class="variable">$this</span>-&gt;_tag_stack);</span><br></pre></td></tr></table></figure>
+
+<p>所以，如果给{block}块的“name”参数传入恶意代码，如本漏洞的poc<code>&#123;block name=&quot;poc*/system(&#39;whoami&#39;)/*&quot;&#125;ABC&#123;/block&#125;</code>，就可以通过注释符把原本的代码注释掉，从而实现代码注入。</p>
+<p>从poc来看（后面我改成phpinfo();来测试了，不影响结果）</p>
+<p><img src="/2023/05/16/CVE-2022-29221%E5%A4%8D%E7%8E%B0/.././CVE-2022-29221%E5%A4%8D%E7%8E%B0/image-20230516142253155.png" alt="image-20230516142253155"></p>
+<p>注入后的结果为：</p>
+<p><img src="/2023/05/16/CVE-2022-29221%E5%A4%8D%E7%8E%B0/.././CVE-2022-29221%E5%A4%8D%E7%8E%B0/image-20230516195835770.png" alt="image-20230516195835770"></p>
+<p>可以看到，编译后的php文件已经实现想要的效果，所以最终合并后的php文件就会执行我们注入的代码，输出phpinfo()信息：</p>
+<p><img src="/2023/05/16/CVE-2022-29221%E5%A4%8D%E7%8E%B0/.././CVE-2022-29221%E5%A4%8D%E7%8E%B0/image-20230516142839687.png" alt="image-20230516142839687"></p>
+<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><p>所以以上代码看似实现了模板的继承功能，实际上存在注入漏洞。那么，为什么会产生漏洞呢？</p>
+<p>实际上，回到上文存在漏洞的第二句代码：<code>$output .= &quot;/* &#123;block &#123;$_name&#125;&#125; */\n&quot;;</code></p>
+<p>这句代码的本来效果，是在Smarty编译后的PHP代码中，为模板块增加注释：<code>/* &#123;block &#123;$_name&#125;&#125; */</code></p>
+<p>该注释主要目的是为了方便在调试或修改模板时，快速定位到模板中的功能块。</p>
+<p>在Smarty编译后的模板文件(templates_c/*.php)中的注释，默认情况下不会出现在最终渲染的页面中（虽然可以通过配置来开启这项功能，但一般正常的网页不会开启）。因为PHP在执行模板文件时，会自动忽略PHP注释。所以开发者就以为代码是安全的，但是，从上文可以看到，如果注入了恶意代码，则最终渲染出的代码还是会执行。</p>
+<p>其他有的没的的补充：</p>
+<p>Smarty模板渲染的完整过程主要分为以下几步:</p>
+<ol>
+<li><p>读取模板文件<br>通过{include file=’xxx.tpl’}或直接指定模板文件$smarty-&gt;display(‘xxx.tpl’)读取模板内容。</p>
+</li>
+<li><p>编译模板<br> 将模板文件内容编译成PHP代码,输出到templates_c目录。如果模板未修改,则直接读取编译缓存。</p>
+</li>
+<li><p>执行编译结果<br>执行templates_c目录下的PHP文件,渲染模板逻辑与输出。</p>
+</li>
+<li><p>读取配置文件<br>Smarty会自动加载configs目录下的配置文件,设置全局变量、权限等。</p>
+</li>
+<li><p>缓存结果<br>Smarty默认会缓存模板渲染结果,输出到cache目录。如果模板或数据未修改,会直接输出缓存内容。</p>
+</li>
+<li><p>处理模板函数、变量、逻辑等<br>编译模板过程中,Smarty处理模板中用到的函数、变量、条件语句、循环等逻辑。</p>
+</li>
+<li><p>处理标签插件</p>
+<p>Smarty使用标签插件扩展其功能,在渲染过程中加载并执行标签插件。</p>
+</li>
+<li><p>输出渲染结果<br>最终Smarty输出渲染好的HTML内容。</p>
+</li>
+</ol>
+<p>其他补充：</p>
+<p>使用Smarty模板获取参数内容的方式：</p>
+<ol>
+<li>获取SESSION参数</li>
+</ol>
+<p>使用<code>&#123;$smarty.session.name&#125;</code>获取SESSION中name的参数值。<br>例如,在PHP页面设置SESSION为:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$_SESSION</span>[<span class="string">&#x27;user&#x27;</span>] = <span class="string">&#x27;John&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>然后在模板中可以获取:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;$smarty.session.user&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出:</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">John</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>获取GET参数</li>
+</ol>
+<p>使用<code>&#123;$smarty.get.var&#125;</code>获取GET请求中的var参数值。<br>例如，页面URL是:</p>
+<figure class="highlight http"><table><tr><td class="code"><pre><span class="line">/index.php?name=Jack&amp;age=20</span><br></pre></td></tr></table></figure>
+
+<p>在模板中:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;$smarty.get.name&#125;  &#123;$smarty.get.age&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Jack 20</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>获取POST参数</li>
+</ol>
+<p>使用<code>&#123;$smarty.post.var&#125;</code>获取POST请求中的var参数值。<br>例如，在PHP页面获取POST数据:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$name</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;name&#x27;</span>]; </span><br><span class="line"><span class="variable">$age</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;age&#x27;</span>];</span><br></pre></td></tr></table></figure>
+
+<p>在模板中:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;$smarty.post.name&#125;  &#123;$smarty.post.age&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Jack 20 </span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>直接从$smarty变量获取 </li>
+</ol>
+<p>如果在PHP中有这样的赋值:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$smarty</span>-&gt;<span class="title function_ invoke__">assign</span>(<span class="string">&#x27;user&#x27;</span>, <span class="string">&#x27;John&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>则在模板中可以通过<code>&#123;$user&#125;</code>直接获取:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;$user&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">John</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>CTF</category>
+      </categories>
+      <tags>
+        <tag>CVE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2023/04/07/Hello-World/</url>
+    <content><![CDATA[<h1 id="未竟之旅"><a href="#未竟之旅" class="headerlink" title="未竟之旅"></a>未竟之旅</h1><p>记录一下第一篇文章</p>
+<span id="more"></span>
+
+<h2 id="从0开始的部落格搭建"><a href="#从0开始的部落格搭建" class="headerlink" title="从0开始的部落格搭建"></a>从0开始的部落格搭建</h2><p>呃呃，很难说这个部落格，目前也算是能用起来了（能跑就是win）。</p>
+<p>说说搭建的历史吧，可能是因为懒（废话就是）本想着去年就搭起来的，但是去年自己啥也不懂（今年好像也是呜呜呜呜），瞎搞了一个服务器，但是弄了半天没弄出来，直接放弃。今年采用这个静态页面托管，上线效率确实快，弄了一两节课就好了。（然而diy弄了一天）</p>
+<p>目前就是，摁，在这里分享自己的技术学习吧（虽然我很菜的），以后可能考虑上线别的东西，可能是一些生活记录啥的（先鸽吧，鼠鼠是没有线虫生活的）</p>
+<p>瞎寄吧说了半天，希望这个博客能活得长一点，能多分享技术，暂定今年发表100篇技术博客捏~ (￣▽￣) ~*（虽然感觉会鸽，anyway，先把flag立在这了）</p>
+<hr>
+<h2 id="有关博客搭建的事项"><a href="#有关博客搭建的事项" class="headerlink" title="有关博客搭建的事项"></a>有关博客搭建的事项</h2><p>好吧进入正题，把这次搭建博客的一些经验感悟先记录在这，供自己和他人以后参考</p>
+<h3 id="可能需要了解的前置知识"><a href="#可能需要了解的前置知识" class="headerlink" title="可能需要了解的前置知识"></a>可能需要了解的前置知识</h3><p>什么是网站和网页？什么是服务器和域名？什么是……</p>
+<p>——互联网黑话初入门</p>
+<h3 id="我的博客配置"><a href="#我的博客配置" class="headerlink" title="我的博客配置"></a>我的博客配置</h3><p>目前采用的是Hexo</p>
+<h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><h3 id="其他插件"><a href="#其他插件" class="headerlink" title="其他插件"></a>其他插件</h3><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3>]]></content>
+      <categories>
+        <category>freeTalk</category>
+      </categories>
+      <tags>
+        <tag>talkingToMyself</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CTF中常见的编码方式和加密方法（正在施工中）</title>
     <url>/2023/05/01/CTF%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E7%BC%96%E7%A0%81%E6%96%B9%E5%BC%8F%E5%92%8C%E5%8A%A0%E5%AF%86%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<p>一些基础知识，了解即可</p>
@@ -46,91 +258,28 @@
       </categories>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2023/04/07/Hello-World/</url>
-    <content><![CDATA[<h1 id="未竟之旅"><a href="#未竟之旅" class="headerlink" title="未竟之旅"></a>未竟之旅</h1><p>记录一下第一篇文章</p>
-<span id="more"></span>
-
-<h2 id="从0开始的部落格搭建"><a href="#从0开始的部落格搭建" class="headerlink" title="从0开始的部落格搭建"></a>从0开始的部落格搭建</h2><p>呃呃，很难说这个部落格，目前也算是能用起来了（能跑就是win）。</p>
-<p>说说搭建的历史吧，可能是因为懒（废话就是）本想着去年就搭起来的，但是去年自己啥也不懂（今年好像也是呜呜呜呜），瞎搞了一个服务器，但是弄了半天没弄出来，直接放弃。今年采用这个静态页面托管，上线效率确实快，弄了一两节课就好了。（然而diy弄了一天）</p>
-<p>目前就是，摁，在这里分享自己的技术学习吧（虽然我很菜的），以后可能考虑上线别的东西，可能是一些生活记录啥的（先鸽吧，鼠鼠是没有线虫生活的）</p>
-<p>瞎寄吧说了半天，希望这个博客能活得长一点，能多分享技术，暂定今年发表100篇技术博客捏~ (￣▽￣) ~*（虽然感觉会鸽，anyway，先把flag立在这了）</p>
-<hr>
-<h2 id="有关博客搭建的事项"><a href="#有关博客搭建的事项" class="headerlink" title="有关博客搭建的事项"></a>有关博客搭建的事项</h2><p>好吧进入正题，把这次搭建博客的一些经验感悟先记录在这，供自己和他人以后参考</p>
-<h3 id="可能需要了解的前置知识"><a href="#可能需要了解的前置知识" class="headerlink" title="可能需要了解的前置知识"></a>可能需要了解的前置知识</h3><p>什么是网站和网页？什么是服务器和域名？什么是……</p>
-<p>——互联网黑话初入门</p>
-<h3 id="我的博客配置"><a href="#我的博客配置" class="headerlink" title="我的博客配置"></a>我的博客配置</h3><p>目前采用的是Hexo</p>
-<h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><h3 id="其他插件"><a href="#其他插件" class="headerlink" title="其他插件"></a>其他插件</h3><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3>]]></content>
-      <categories>
-        <category>freeTalk</category>
-      </categories>
-      <tags>
-        <tag>talkingToMyself</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>一些杂项</title>
-    <url>/2023/04/19/%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/</url>
-    <content><![CDATA[<p> 一些无意发现的东西</p>
-<span id="more"></span>
-
-<h1 id="设计心理学？"><a href="#设计心理学？" class="headerlink" title="设计心理学？"></a>设计心理学？</h1><p>哥们以前任务栏图标</p>
-<p><img src="/2023/04/19/%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/.././%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/image-20230419000435176.png" alt="image-20230419000435176"></p>
-<p>这样经常会点错，想选择谷歌浏览器会点到edge</p>
-<p>然后这样改了</p>
-<p><img src="/2023/04/19/%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/.././%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/image-20230419000518990.png" alt="image-20230419000518990"></p>
-<p>欸，莫名其妙就不会误触了！</p>
-<p>嗯，可见分隔不同属性的优点</p>
-]]></content>
-      <categories>
-        <category>development</category>
-      </categories>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2023/04/06/index/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>一些稀奇古怪的问题的记录与解决</title>
-    <url>/2023/04/17/%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/</url>
-    <content><![CDATA[<p>如题所示，希望这些debug过程能提供一些参考，或者是自己以后忘了回来看看</p>
-<span id="more"></span>
-
-<h1 id="一些稀奇古怪的问题的记录和解决"><a href="#一些稀奇古怪的问题的记录和解决" class="headerlink" title="一些稀奇古怪的问题的记录和解决"></a>一些稀奇古怪的问题的记录和解决</h1><h2 id="chrome复制链接无法复制标题"><a href="#chrome复制链接无法复制标题" class="headerlink" title="chrome复制链接无法复制标题"></a>chrome复制链接无法复制标题</h2><p><strong>问题背景：</strong>经常在写文档或者查找资料的时候需要搜索网页，搜索完之后需要保存下来，但是chrome复制网页链接无法做到连同标题一起复制，导致回顾的时候常常不记得这个链接的大概内容，有时候一个临时文本框存了很多链接，自己看的也懵。使用edge后发现edge可以做到，就想着chrome也一定可以。</p>
-<p><strong>解决方案：</strong>谷歌插件市场下载tapcopy插件，这款插件可以实现复制链接携带标题的功能，还可以自行选择格式，例如适用于md，html，js等等，甚至可以自定义格式</p>
-<p><img src="/2023/04/17/%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/.././%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20230417150612785.png" alt="image-20230417150612785"></p>
-<p><img src="/2023/04/17/%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/.././%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20230417150645544.png" alt="image-20230417150645544"></p>
-]]></content>
-      <categories>
-        <category>development</category>
-      </categories>
-      <tags>
-        <tag>deBug</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>PHP代码审计学习笔记（施工中）</title>
     <url>/2023/05/10/PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E6%96%BD%E5%B7%A5%E4%B8%AD%EF%BC%89/</url>
     <content><![CDATA[<p>一点PHPtricks，正在学习更新中</p>
+<p>“PHP是世界上最好的语言” ^^</p>
 <span id="more"></span>
 
 <h1 id="PHP代码审计学习笔记（施工中）"><a href="#PHP代码审计学习笔记（施工中）" class="headerlink" title="PHP代码审计学习笔记（施工中）"></a>PHP代码审计学习笔记（施工中）</h1><h2 id="PHP弱类型比较"><a href="#PHP弱类型比较" class="headerlink" title="PHP弱类型比较"></a>PHP弱类型比较</h2><h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><p>PHP是一门弱类型语言,这意味着同一变量可以在不同时间存放不同类型的数据。由于PHP的弱类型特征,在部分比较操作符（== 、&gt; 、&lt; 等）比较<strong>不同类型的数据</strong>时，会进行<strong>类型转换</strong>后再比较，这可能导致一些非预期的结果。</p>
 <h3 id="例子："><a href="#例子：" class="headerlink" title="例子："></a>例子：</h3><p><strong>一、字符串与整型比较</strong></p>
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;10&#x27;</span> == <span class="number">10</span>        <span class="comment">// true </span></span><br><span class="line"><span class="string">&#x27;10&#x27;</span> === <span class="number">10</span>       <span class="comment">// false</span></span><br><span class="line"><span class="string">&#x27;10foo&#x27;</span> &gt; <span class="number">5</span>        <span class="comment">// true </span></span><br></pre></td></tr></table></figure>
 
-<p>在 == 比较时,字符串’10’会转换为整型10，所以相等。但 === 全等比较不会发生类型转换，所以不相等。<br>在 &gt; 比较时，’10foo’ 被解析为10，所以 ‘10foo’ &gt; 5返回true。</p>
+<p>在 == 比较时，字符串’10’会转换为整型10，所以相等。但 === 全等比较不会发生类型转换，所以不相等。<br>在 &gt; 比较时，’10foo’ 被解析为10，所以 ‘10foo’ &gt; 5返回true。</p>
 <p><strong>二、空字符串与零比较</strong></p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;</span> == <span class="number">0</span>           <span class="comment">// true</span></span><br><span class="line"><span class="string">&#x27;&#x27;</span> === <span class="number">0</span>          <span class="comment">// false </span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;</span> == <span class="number">0</span>           <span class="comment">// true </span></span><br><span class="line"><span class="string">&#x27;&#x27;</span> === <span class="number">0</span>          <span class="comment">// false </span></span><br></pre></td></tr></table></figure>
 
 <p> 在 == 比较中，空字符串 ‘’ 被转换为0，所以相等。但 === 全等比较不转换类型,所以不相等。</p>
 <p>注：<strong>0、[]、[0]、null</strong>和任意字符进行<strong>弱类型比较</strong>都相等</p>
 <p><strong>三、空数组与零比较</strong></p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">[] == <span class="number">0</span>           <span class="comment">// true</span></span><br><span class="line">[] === <span class="number">0</span>          <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">[] == <span class="number">0</span>           <span class="comment">// true </span></span><br><span class="line">[] === <span class="number">0</span>          <span class="comment">// false </span></span><br></pre></td></tr></table></figure>
 
 <p> [] 被转换为0进行 == 比较，所以相等。但===不会转换类型,所以不相等。</p>
 <p><strong>四、空与 NULL 比较</strong> </p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;</span> == <span class="literal">null</span>        <span class="comment">// true</span></span><br><span class="line"><span class="string">&#x27;&#x27;</span> === <span class="literal">null</span>       <span class="comment">// false </span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;</span> == <span class="literal">null</span>        <span class="comment">// true </span></span><br><span class="line"><span class="string">&#x27;&#x27;</span> === <span class="literal">null</span>       <span class="comment">// false </span></span><br></pre></td></tr></table></figure>
 
 <p> == 比较时，null被转换为 ‘’ ，所以相等。但===不会转换类型,所以不相等。</p>
 <h3 id="常见的利用类型"><a href="#常见的利用类型" class="headerlink" title="常见的利用类型"></a>常见的利用类型</h3><h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a href="https://flag0.com/2019/09/20/php%E5%BC%B1%E7%B1%BB%E5%9E%8B/">php弱类型、强类型总结 | flag0’s Blog</a></p>
@@ -180,18 +329,89 @@
 
 <p>攻击者发送<code>POST: &#123;&quot;name&quot;: &quot;xiaoming&#39; OR 1=1 # &quot;&#125; </code></p>
 <p>这会产生 <code>$sql = &quot;SELECT * FROM users WHERE name = &#39;xiaoming\&#39; OR 1=1 # &#39;&quot;</code>，成功SQL注入。</p>
-<p>利用十六进制绕过preg_match()preg_match()：</p>
+<p><strong>利用十六进制绕过preg_match()preg_match()：</strong></p>
 <p>在匹配字符串时不会验证十六进制编码的数据，攻击者可以利用这点绕过：</p>
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/^[\da-z]+$/i&#x27;</span>, <span class="variable">$_GET</span>[<span class="string">&#x27;input&#x27;</span>])) &#123;</span><br><span class="line">    <span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users WHERE name = <span class="subst">&#123;$_GET[&#x27;input&#x27;]&#125;</span>&quot;</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>攻击者可以发送input=0x78，这会产生 <code>$sql = &quot;SELECT * FROM users WHERE name = 0x78&quot;</code> ，成功绕过正则匹配的验证。</p>
 <p>其他更多姿势等待搜集整理，关键还是在弱类型比较中会产生<strong>类型转换</strong></p>
+<h2 id="PHP代码注入"><a href="#PHP代码注入" class="headerlink" title="PHP代码注入"></a>PHP代码注入</h2><p>（目前没遇到太多，具体操作不是很清晰）</p>
+<h3 id="简述："><a href="#简述：" class="headerlink" title="简述："></a>简述：</h3><p>PHP代码注入是一种代码执行漏洞，它允许攻击者向应用提交恶意代码，由应用执行。这通常是由于应用直接在PHP中执行<strong>用户提交的数据</strong>造成的。</p>
+<h3 id="原理：-1"><a href="#原理：-1" class="headerlink" title="原理："></a>原理：</h3><p>PHP代码注入的形成是因为PHP支持<strong>动态语句执行</strong>和<strong>变量解析替换</strong>。当用户输入的数据被直接用于动态构造语句时，攻击者可以通过特殊构造输入将其作为PHP代码执行，这就导致了代码注入。</p>
+<h3 id="简单例子："><a href="#简单例子：" class="headerlink" title="简单例子："></a>简单例子：</h3><p><strong>获取系统信息</strong></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$input</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;input&#x27;</span>];</span><br><span class="line">    <span class="keyword">eval</span>(<span class="variable">$input</span>);  </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>访问:<code>?input=phpinfo();</code>这会执行phpinfo()函数显示PHP配置信息。</p>
+<p><strong>读取敏感文件</strong></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$file</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="variable">$file</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>访问:<code>?file=index.php</code>这会显示index.php文件的源代码。</p>
+<p><strong>执行系统命令</strong></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$cmd</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;cmd&#x27;</span>]; </span><br><span class="line">    <span class="title function_ invoke__">system</span>(<span class="variable">$cmd</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>访问:?cmd=whoami<br>这会执行whoami命令显示当前用户。</p>
+<p>以上样例演示了php部分函数能直接执行提交的恶意数据，导致非预期的结果，实际中可能会有多种过滤和函数禁用，需要具体情况具体分析，查阅PHP手册进行绕过</p>
+<h3 id="危险的函数："><a href="#危险的函数：" class="headerlink" title="危险的函数："></a>危险的函数：</h3><p>代码执行函数：eval()， assert(), </p>
+<p>正则匹配函数：preg_replace(), </p>
+<p>动态代码执行函数：create_function()，call_user_func()，call_user_func_array()。</p>
+<h3 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h3><p><a href="https://3wapp.github.io/WebSecurity/php_cmdinject.html">PHP代码执行与命令注入 · Wiki | janes</a></p>
+<p><a href="http://www.beesfun.com/2017/04/18/PHP%E4%BB%A3%E7%A0%81%E6%B3%A8%E5%85%A5%E5%92%8C%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/">PHP代码注入和命令注入 | bees’ blog</a></p>
+<p><a href="https://blog.csdn.net/qq_41901122/article/details/104244366">PHP 代码注入知识点总结_if (isset(_星球守护者的博客-CSDN博客</a></p>
+<p><a href="https://www.freebuf.com/column/166385.html">PHP代码命令注入小结 - FreeBuf网络安全行业门户</a></p>
+<p>[<a href="https://www.cnblogs.com/jpSpaceX/articles/14900803.html">渗透测试]：PHP代码注入 - jpSpaceX - 博客园</a></p>
+<h2 id="PHP伪协议"><a href="#PHP伪协议" class="headerlink" title="PHP伪协议"></a>PHP伪协议</h2><p>（感觉遇到了会用就行，前人已经总结得很完善了，就不再造轮子了）</p>
+<p>简述：PHP伪协议是PHP代码中使用的特殊协议,它允许读取本地数据流、文件等资源。</p>
+<p>利用方式：</p>
+<p><a href="https://segmentfault.com/a/1190000018991087">PHP伪协议总结 - 个人文章 - SegmentFault 思否</a></p>
+<p><a href="https://www.cnblogs.com/wjrblogs/p/12285202.html">CTF中常用的php伪协议利用 - 1ndex- - 博客园</a></p>
+<p><a href="https://www.hetianlab.com/hetian/20210906145653">PHP伪协议的妙用 - 合天网安实验室</a></p>
 ]]></content>
       <categories>
         <category>CTF</category>
       </categories>
       <tags>
         <tag>PHP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一些杂项</title>
+    <url>/2023/04/19/%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/</url>
+    <content><![CDATA[<p> 一些无意发现的东西</p>
+<span id="more"></span>
+
+<h2 id="设计心理学？"><a href="#设计心理学？" class="headerlink" title="设计心理学？"></a>设计心理学？</h2><p>哥们以前任务栏图标</p>
+<p><img src="/2023/04/19/%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/.././%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/image-20230419000435176.png" alt="image-20230419000435176"></p>
+<p>这样经常会点错，想选择谷歌浏览器会点到edge</p>
+<p>然后这样改了</p>
+<p><img src="/2023/04/19/%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/.././%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/image-20230419000518990.png" alt="image-20230419000518990"></p>
+<p>欸，莫名其妙就不会误触了！</p>
+<p>嗯，可见分隔不同属性的优点</p>
+<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2>]]></content>
+      <categories>
+        <category>development</category>
+      </categories>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2023/04/06/index/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>一些稀奇古怪的问题的记录与解决</title>
+    <url>/2023/04/17/%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/</url>
+    <content><![CDATA[<p>如题所示，希望这些debug过程能提供一些参考，或者是自己以后忘了回来看看</p>
+<span id="more"></span>
+
+<h1 id="一些稀奇古怪的问题的记录和解决"><a href="#一些稀奇古怪的问题的记录和解决" class="headerlink" title="一些稀奇古怪的问题的记录和解决"></a>一些稀奇古怪的问题的记录和解决</h1><h2 id="chrome复制链接无法复制标题"><a href="#chrome复制链接无法复制标题" class="headerlink" title="chrome复制链接无法复制标题"></a>chrome复制链接无法复制标题</h2><p><strong>问题背景：</strong>经常在写文档或者查找资料的时候需要搜索网页，搜索完之后需要保存下来，但是chrome复制网页链接无法做到连同标题一起复制，导致回顾的时候常常不记得这个链接的大概内容，有时候一个临时文本框存了很多链接，自己看的也懵。使用edge后发现edge可以做到，就想着chrome也一定可以。</p>
+<p><strong>解决方案：</strong>谷歌插件市场下载tapcopy插件，这款插件可以实现复制链接携带标题的功能，还可以自行选择格式，例如适用于md，html，js等等，甚至可以自定义格式</p>
+<p><img src="/2023/04/17/%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/.././%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20230417150612785.png" alt="image-20230417150612785"></p>
+<p><img src="/2023/04/17/%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/.././%E4%B8%80%E4%BA%9B%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20230417150645544.png" alt="image-20230417150645544"></p>
+]]></content>
+      <categories>
+        <category>development</category>
+      </categories>
+      <tags>
+        <tag>deBug</tag>
       </tags>
   </entry>
   <entry>
