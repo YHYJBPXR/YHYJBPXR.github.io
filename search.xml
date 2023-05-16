@@ -46,6 +46,29 @@
       </categories>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/2023/04/07/Hello-World/</url>
+    <content><![CDATA[<h1 id="未竟之旅"><a href="#未竟之旅" class="headerlink" title="未竟之旅"></a>未竟之旅</h1><p>记录一下第一篇文章</p>
+<span id="more"></span>
+
+<h2 id="从0开始的部落格搭建"><a href="#从0开始的部落格搭建" class="headerlink" title="从0开始的部落格搭建"></a>从0开始的部落格搭建</h2><p>呃呃，很难说这个部落格，目前也算是能用起来了（能跑就是win）。</p>
+<p>说说搭建的历史吧，可能是因为懒（废话就是）本想着去年就搭起来的，但是去年自己啥也不懂（今年好像也是呜呜呜呜），瞎搞了一个服务器，但是弄了半天没弄出来，直接放弃。今年采用这个静态页面托管，上线效率确实快，弄了一两节课就好了。（然而diy弄了一天）</p>
+<p>目前就是，摁，在这里分享自己的技术学习吧（虽然我很菜的），以后可能考虑上线别的东西，可能是一些生活记录啥的（先鸽吧，鼠鼠是没有线虫生活的）</p>
+<p>瞎寄吧说了半天，希望这个博客能活得长一点，能多分享技术，暂定今年发表100篇技术博客捏~ (￣▽￣) ~*（虽然感觉会鸽，anyway，先把flag立在这了）</p>
+<hr>
+<h2 id="有关博客搭建的事项"><a href="#有关博客搭建的事项" class="headerlink" title="有关博客搭建的事项"></a>有关博客搭建的事项</h2><p>好吧进入正题，把这次搭建博客的一些经验感悟先记录在这，供自己和他人以后参考</p>
+<h3 id="可能需要了解的前置知识"><a href="#可能需要了解的前置知识" class="headerlink" title="可能需要了解的前置知识"></a>可能需要了解的前置知识</h3><p>什么是网站和网页？什么是服务器和域名？什么是……</p>
+<p>——互联网黑话初入门</p>
+<h3 id="我的博客配置"><a href="#我的博客配置" class="headerlink" title="我的博客配置"></a>我的博客配置</h3><p>目前采用的是Hexo</p>
+<h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><h3 id="其他插件"><a href="#其他插件" class="headerlink" title="其他插件"></a>其他插件</h3><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3>]]></content>
+      <categories>
+        <category>freeTalk</category>
+      </categories>
+      <tags>
+        <tag>talkingToMyself</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CVE-2022-29221复现</title>
     <url>/2023/05/16/CVE-2022-29221%E5%A4%8D%E7%8E%B0/</url>
     <content><![CDATA[<p>上周三WEB组的任务，白神真的会上压力，不过感觉复现一个CVE提升挺大的（特别是配环境环节），一下子弄懂了好多</p>
@@ -110,10 +133,9 @@
 <p>同时，在修复代码中，可以看到存在漏洞的是这些文件：</p>
 <p><img src="/2023/05/16/CVE-2022-29221%E5%A4%8D%E7%8E%B0/.././CVE-2022-29221%E5%A4%8D%E7%8E%B0/image-20230516192358926.png" alt="image-20230516192358926"></p>
 <p>补充：</p>
-<p>libs/sysplugins/目录存放了Smarty模板引擎的系统插件，以``libs/sysplugins/smarty_internal_compile_block.php`为例，它是Smarty模板引擎的系统插件文件之一。其主要作用是：解析模板中的块结构，生成PHP代码，实现块的覆盖、继承和输出功能。</p>
+<p>libs/sysplugins/目录存放了Smarty模板引擎的系统插件，以<code>libs/sysplugins/smarty_internal_compile_block.php</code>为例，它是Smarty模板引擎的系统插件文件之一。其主要作用是：解析模板中的块结构，生成PHP代码，实现块的覆盖、继承和输出功能。</p>
 <p>Smarty模板中{block}块的作用：<a href="https://www.smarty.net/docs/zh_CN/language.function.block.tpl">{block} | Smarty</a></p>
-<p>简而言之，<code>&#123;block&#125;</code>可在模板上定义一块区域，以进行模板继承。</p>
-<p>子模板中的<code>&#123;block&#125;</code>区域代码，将会替换父模板对应的区域代码。</p>
+<p>简而言之，<code>&#123;block&#125;</code>可在模板上定义一块区域，以进行模板继承。子模板中的<code>&#123;block&#125;</code>区域代码，将会替换父模板对应的区域代码。</p>
 <p>另外，<code>&#123;block&#125;</code>可以设置成合并父子模板的相应区域。在子模板的<code>&#123;block&#125;</code>中定义 <code>append</code> 或 <code>prepend</code>，可以使子模板附加在父模板 <code>&#123;block&#125;</code>区域的后面或前面。 在<code>&#123;block&#125;</code>内容中使用{$smarty.block.parent}，可以让父模板的区域代码放到 子模板<code>&#123;block&#125;</code>内的任何位置。</p>
 <p>具体过程：</p>
 <p>当Smarty编译模板文件时，遇到{block}标签，会调用<code>smarty_internal_compile_block.php</code>这个系统插件进行编译。该插件会执行以下操作：</p>
@@ -124,7 +146,7 @@
 </li>
 <li><p>检查是否有同名的父级块，如果有，标记为块覆盖。</p>
 </li>
-<li><p>生成块开始和结束的PHP代码</p>
+<li><p>生成块开始和结束的PHP代码，如：</p>
 </li>
 </ol>
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/* &#123;block name&#125; */</span></span><br><span class="line"><span class="comment">//块开始</span></span><br><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="comment">/* &#123;/block&#125; */</span> </span><br><span class="line"><span class="comment">//块结束</span></span><br></pre></td></tr></table></figure>
@@ -151,11 +173,11 @@
 <p><img src="/2023/05/16/CVE-2022-29221%E5%A4%8D%E7%8E%B0/.././CVE-2022-29221%E5%A4%8D%E7%8E%B0/image-20230516195835770.png" alt="image-20230516195835770"></p>
 <p>可以看到，编译后的php文件已经实现想要的效果，所以最终合并后的php文件就会执行我们注入的代码，输出phpinfo()信息：</p>
 <p><img src="/2023/05/16/CVE-2022-29221%E5%A4%8D%E7%8E%B0/.././CVE-2022-29221%E5%A4%8D%E7%8E%B0/image-20230516142839687.png" alt="image-20230516142839687"></p>
-<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><p>所以以上代码看似实现了模板的继承功能，实际上存在注入漏洞。那么，为什么会产生漏洞呢？</p>
+<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><p>所以未修复前的代码看似实现了模板的继承功能，但实际上存在注入漏洞。那么，为什么会产生漏洞呢？</p>
 <p>实际上，回到上文存在漏洞的第二句代码：<code>$output .= &quot;/* &#123;block &#123;$_name&#125;&#125; */\n&quot;;</code></p>
 <p>这句代码的本来效果，是在Smarty编译后的PHP代码中，为模板块增加注释：<code>/* &#123;block &#123;$_name&#125;&#125; */</code></p>
 <p>该注释主要目的是为了方便在调试或修改模板时，快速定位到模板中的功能块。</p>
-<p>在Smarty编译后的模板文件(templates_c/*.php)中的注释，默认情况下不会出现在最终渲染的页面中（虽然可以通过配置来开启这项功能，但一般正常的网页不会开启）。因为PHP在执行模板文件时，会自动忽略PHP注释。所以开发者就以为代码是安全的，但是，从上文可以看到，如果注入了恶意代码，则最终渲染出的代码还是会执行。</p>
+<p>在Smarty编译后的模板文件(templates_c/*.php)中的注释，默认情况下不会出现在最终渲染的页面中（虽然可以通过配置来开启这项功能，但一般正常的网页不会开启）。因为PHP在执行模板文件时，会自动忽略PHP注释。所以开发者就以为代码是安全的，但是，从上文可以看到，如果注入了恶意代码，则最终渲染出的恶意代码还是会执行。</p>
 <p>其他有的没的的补充：</p>
 <p>Smarty模板渲染的完整过程主要分为以下几步:</p>
 <ol>
@@ -235,50 +257,9 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2023/04/07/Hello-World/</url>
-    <content><![CDATA[<h1 id="未竟之旅"><a href="#未竟之旅" class="headerlink" title="未竟之旅"></a>未竟之旅</h1><p>记录一下第一篇文章</p>
-<span id="more"></span>
-
-<h2 id="从0开始的部落格搭建"><a href="#从0开始的部落格搭建" class="headerlink" title="从0开始的部落格搭建"></a>从0开始的部落格搭建</h2><p>呃呃，很难说这个部落格，目前也算是能用起来了（能跑就是win）。</p>
-<p>说说搭建的历史吧，可能是因为懒（废话就是）本想着去年就搭起来的，但是去年自己啥也不懂（今年好像也是呜呜呜呜），瞎搞了一个服务器，但是弄了半天没弄出来，直接放弃。今年采用这个静态页面托管，上线效率确实快，弄了一两节课就好了。（然而diy弄了一天）</p>
-<p>目前就是，摁，在这里分享自己的技术学习吧（虽然我很菜的），以后可能考虑上线别的东西，可能是一些生活记录啥的（先鸽吧，鼠鼠是没有线虫生活的）</p>
-<p>瞎寄吧说了半天，希望这个博客能活得长一点，能多分享技术，暂定今年发表100篇技术博客捏~ (￣▽￣) ~*（虽然感觉会鸽，anyway，先把flag立在这了）</p>
-<hr>
-<h2 id="有关博客搭建的事项"><a href="#有关博客搭建的事项" class="headerlink" title="有关博客搭建的事项"></a>有关博客搭建的事项</h2><p>好吧进入正题，把这次搭建博客的一些经验感悟先记录在这，供自己和他人以后参考</p>
-<h3 id="可能需要了解的前置知识"><a href="#可能需要了解的前置知识" class="headerlink" title="可能需要了解的前置知识"></a>可能需要了解的前置知识</h3><p>什么是网站和网页？什么是服务器和域名？什么是……</p>
-<p>——互联网黑话初入门</p>
-<h3 id="我的博客配置"><a href="#我的博客配置" class="headerlink" title="我的博客配置"></a>我的博客配置</h3><p>目前采用的是Hexo</p>
-<h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><h3 id="其他插件"><a href="#其他插件" class="headerlink" title="其他插件"></a>其他插件</h3><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3>]]></content>
-      <categories>
-        <category>freeTalk</category>
-      </categories>
-      <tags>
-        <tag>talkingToMyself</tag>
-      </tags>
-  </entry>
-  <entry>
     <title></title>
     <url>/2023/04/06/index/</url>
     <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>一些杂项</title>
-    <url>/2023/04/19/%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/</url>
-    <content><![CDATA[<p> 一些无意发现的东西</p>
-<span id="more"></span>
-
-<h2 id="设计心理学？"><a href="#设计心理学？" class="headerlink" title="设计心理学？"></a>设计心理学？</h2><p>哥们以前任务栏图标</p>
-<p><img src="/2023/04/19/%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/.././%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/image-20230419000435176.png" alt="image-20230419000435176"></p>
-<p>这样经常会点错，想选择谷歌浏览器会点到edge</p>
-<p>然后这样改了</p>
-<p><img src="/2023/04/19/%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/.././%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/image-20230419000518990.png" alt="image-20230419000518990"></p>
-<p>欸，莫名其妙就不会误触了！</p>
-<p>嗯，可见分隔不同属性的优点</p>
-<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2>]]></content>
-      <categories>
-        <category>development</category>
-      </categories>
   </entry>
   <entry>
     <title>PHP代码审计学习笔记（施工中）</title>
@@ -395,6 +376,24 @@
       <tags>
         <tag>PHP</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>一些杂项</title>
+    <url>/2023/04/19/%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/</url>
+    <content><![CDATA[<p> 一些无意发现的东西</p>
+<span id="more"></span>
+
+<h2 id="设计心理学？"><a href="#设计心理学？" class="headerlink" title="设计心理学？"></a>设计心理学？</h2><p>哥们以前任务栏图标</p>
+<p><img src="/2023/04/19/%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/.././%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/image-20230419000435176.png" alt="image-20230419000435176"></p>
+<p>这样经常会点错，想选择谷歌浏览器会点到edge</p>
+<p>然后这样改了</p>
+<p><img src="/2023/04/19/%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/.././%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/image-20230419000518990.png" alt="image-20230419000518990"></p>
+<p>欸，莫名其妙就不会误触了！</p>
+<p>嗯，可见分隔不同属性的优点</p>
+<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2>]]></content>
+      <categories>
+        <category>development</category>
+      </categories>
   </entry>
   <entry>
     <title>一些稀奇古怪的问题的记录与解决</title>
