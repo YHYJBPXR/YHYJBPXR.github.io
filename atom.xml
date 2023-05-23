@@ -6,7 +6,7 @@
   <link href="https://yhyj.xyz/atom.xml" rel="self"/>
   
   <link href="https://yhyj.xyz/"/>
-  <updated>2023-05-17T15:48:48.715Z</updated>
+  <updated>2023-05-23T13:07:18.083Z</updated>
   <id>https://yhyj.xyz/</id>
   
   <author>
@@ -17,11 +17,26 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>VHDL介绍</title>
+    <link href="https://yhyj.xyz/2023/05/23/VHDL%E4%BB%8B%E7%BB%8D/"/>
+    <id>https://yhyj.xyz/2023/05/23/VHDL%E4%BB%8B%E7%BB%8D/</id>
+    <published>2023-05-23T13:06:07.000Z</published>
+    <updated>2023-05-23T13:07:18.083Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;小孩不懂事，写着玩的&lt;/p&gt;</summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>CVE-2022-29221复现</title>
     <link href="https://yhyj.xyz/2023/05/16/CVE-2022-29221%E5%A4%8D%E7%8E%B0/"/>
     <id>https://yhyj.xyz/2023/05/16/CVE-2022-29221%E5%A4%8D%E7%8E%B0/</id>
     <published>2023-05-16T12:29:51.000Z</published>
-    <updated>2023-05-17T15:48:48.715Z</updated>
+    <updated>2023-05-17T15:52:00.022Z</updated>
     
     
     <summary type="html">&lt;p&gt;上周三WEB组的任务，白神真的会上压力，不过感觉复现一个CVE提升挺大的（特别是配环境环节，呵呵了），一下子弄懂了好多&lt;/p&gt;</summary>
