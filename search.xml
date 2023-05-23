@@ -69,122 +69,6 @@
       </tags>
   </entry>
   <entry>
-    <title>PHP代码审计学习笔记（施工中）</title>
-    <url>/2023/05/10/PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E6%96%BD%E5%B7%A5%E4%B8%AD%EF%BC%89/</url>
-    <content><![CDATA[<p>一点PHPtricks，正在学习更新中</p>
-<p>“PHP是世界上最好的语言” ^^</p>
-<span id="more"></span>
-
-<h1 id="PHP代码审计学习笔记（施工中）"><a href="#PHP代码审计学习笔记（施工中）" class="headerlink" title="PHP代码审计学习笔记（施工中）"></a>PHP代码审计学习笔记（施工中）</h1><h2 id="PHP弱类型比较"><a href="#PHP弱类型比较" class="headerlink" title="PHP弱类型比较"></a>PHP弱类型比较</h2><h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><p>PHP是一门弱类型语言,这意味着同一变量可以在不同时间存放不同类型的数据。由于PHP的弱类型特征,在部分比较操作符（== 、&gt; 、&lt; 等）比较<strong>不同类型的数据</strong>时，会进行<strong>类型转换</strong>后再比较，这可能导致一些非预期的结果。</p>
-<h3 id="例子："><a href="#例子：" class="headerlink" title="例子："></a>例子：</h3><p><strong>一、字符串与整型比较</strong></p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;10&#x27;</span> == <span class="number">10</span>        <span class="comment">// true </span></span><br><span class="line"><span class="string">&#x27;10&#x27;</span> === <span class="number">10</span>       <span class="comment">// false</span></span><br><span class="line"><span class="string">&#x27;10foo&#x27;</span> &gt; <span class="number">5</span>        <span class="comment">// true </span></span><br></pre></td></tr></table></figure>
-
-<p>在 == 比较时，字符串’10’会转换为整型10，所以相等。但 === 全等比较不会发生类型转换，所以不相等。<br>在 &gt; 比较时，’10foo’ 被解析为10，所以 ‘10foo’ &gt; 5返回true。</p>
-<p><strong>二、空字符串与零比较</strong></p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;</span> == <span class="number">0</span>           <span class="comment">// true </span></span><br><span class="line"><span class="string">&#x27;&#x27;</span> === <span class="number">0</span>          <span class="comment">// false </span></span><br></pre></td></tr></table></figure>
-
-<p> 在 == 比较中，空字符串 ‘’ 被转换为0，所以相等。但 === 全等比较不转换类型,所以不相等。</p>
-<p>注：<strong>0、[]、[0]、null</strong>和任意字符进行<strong>弱类型比较</strong>都相等</p>
-<p><strong>三、空数组与零比较</strong></p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">[] == <span class="number">0</span>           <span class="comment">// true </span></span><br><span class="line">[] === <span class="number">0</span>          <span class="comment">// false </span></span><br></pre></td></tr></table></figure>
-
-<p> [] 被转换为0进行 == 比较，所以相等。但===不会转换类型,所以不相等。</p>
-<p><strong>四、空与 NULL 比较</strong> </p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;</span> == <span class="literal">null</span>        <span class="comment">// true </span></span><br><span class="line"><span class="string">&#x27;&#x27;</span> === <span class="literal">null</span>       <span class="comment">// false </span></span><br></pre></td></tr></table></figure>
-
-<p> == 比较时，null被转换为 ‘’ ，所以相等。但===不会转换类型,所以不相等。</p>
-<h3 id="常见的利用类型"><a href="#常见的利用类型" class="headerlink" title="常见的利用类型"></a>常见的利用类型</h3><h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a href="https://flag0.com/2019/09/20/php%E5%BC%B1%E7%B1%BB%E5%9E%8B/">php弱类型、强类型总结 | flag0’s Blog</a></p>
-<h4 id="补充："><a href="#补充：" class="headerlink" title="补充："></a>补充：</h4><h5 id="md5绕过的技巧"><a href="#md5绕过的技巧" class="headerlink" title="md5绕过的技巧"></a>md5绕过的技巧</h5><p><a href="https://cloud.tencent.com/developer/beta/article/2070130">关于md5的绕过技巧-腾讯云开发者社区-腾讯云</a></p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$str1</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;str1&#x27;</span>];</span><br><span class="line"><span class="variable">$str2</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;str2&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">md5</span>(<span class="variable">$str1</span>) == <span class="title function_ invoke__">md5</span>(<span class="variable">$str2</span>))&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&#x27;OK&#x27;</span>; </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//?str1 = s1885207154a&amp;str2 = s1091221200a</span></span><br></pre></td></tr></table></figure>
-
-<p>注意到比较的时候是弱类型比较，所以……</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$str1</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;str1&#x27;</span>];</span><br><span class="line"><span class="variable">$str2</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;str2&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">md5</span>(<span class="variable">$str1</span>) === <span class="title function_ invoke__">md5</span>(<span class="variable">$str2</span>)) &#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&#x27;OK&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//?str1[]=1&amp;str2[]=2</span></span><br></pre></td></tr></table></figure>
-
-<p>PHP自身的特性使得可以提交一个数组，而md5函数传入数组的返回值都是NULL，这样就可以绕过强类型比较了。所以这里用GET传入就行了</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$str1</span> = (<span class="keyword">string</span>)<span class="variable">$_GET</span>[<span class="string">&#x27;str1&#x27;</span>];</span><br><span class="line"><span class="variable">$str2</span> = (<span class="keyword">string</span>)<span class="variable">$_GET</span>[<span class="string">&#x27;str2&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">md5</span>(<span class="variable">$str1</span>) === <span class="title function_ invoke__">md5</span>(<span class="variable">$str2</span>)) &#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&#x27;OK&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>由于强制类型转换，所以不能传入数组了，这里就需要MD5碰撞：</p>
-<p>一个关于md5碰撞功能的网页：<a href="https://www.win.tue.nl/hashclash/">HashClash</a></p>
-<h5 id="其他例子："><a href="#其他例子：" class="headerlink" title="其他例子："></a>其他例子：</h5><p><strong>绕过is_numeric()函数：</strong></p>
-<p>is_numeric()用于判断变量是否为数字，但是它实际检测的是<strong>变量是否可以转换为数字</strong>。所以:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">is_numeric</span>(<span class="string">&#x27;1foo&#x27;</span>)   <span class="comment">// true </span></span><br><span class="line"><span class="title function_ invoke__">is_numeric</span>(<span class="string">&#x27;foo1&#x27;</span>)   <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
-
-<p>‘1foo’ 可以转换为1，所以返回true。攻击者可以通过构造类似 ‘1e10’ 来绕过is_numeric()检测。</p>
-<p><strong>利用隐式类型转换绕过空验证：</strong></p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>] != <span class="string">&#x27;&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Welcome <span class="subst">&#123;$_GET[&#x27;name&#x27;]&#125;</span>&quot;</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>以上代码试图避免空字符串注入，但是攻击者可以发送name=0或name=1。因为PHP会将其隐式转换为字符串 ‘0’ 或 ‘1’ 。</p>
-<p><strong>利用JSON绕过magic_quotes_gpc：</strong></p>
-<p>PHP的魔术引号magic_quotes_gpc可以自动对POST、GET、COOKIE数据进行转义，来防范SQL注入。但是，当magic_quotes_gpc开启时，攻击者可以通过JSON数据绕过:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">POST: &#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;xiaoming&#x27; OR 1=1 #&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$data</span> = <span class="title function_ invoke__">json_decode</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;data&#x27;</span>]);</span><br><span class="line"><span class="variable">$name</span> = <span class="variable">$data</span>-&gt;name;   <span class="comment">// $name = xiaoming&#x27; OR 1=1 #</span></span><br></pre></td></tr></table></figure>
-
-<p>因为json_decode()会解析JSON并返回object，魔术引号不会对其转义。</p>
-<p><strong>利用数组绕过stripslashes()：</strong></p>
-<p>stripslashes()用于去除反斜杠转义，如果传入双引号字符串，它可以有效防止SQL注入。但是，攻击者可以通过数组绕过:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users WHERE name = <span class="subst">&#123;$_GET[&#x27;name&#x27;]&#125;</span>&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">get_magic_quotes_gpc</span>()) &#123;</span><br><span class="line">    <span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>] = <span class="title function_ invoke__">stripslashes</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>利用数组绕过preg_match()：</strong></p>
-<p>preg_match()用于正则匹配，如果传入字符串会有效防止SQL注入。但是，攻击者可以发送数组绕过:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users WHERE name = <span class="subst">&#123;$_GET[&#x27;name&#x27;]&#125;</span>&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/^[a-zA-Z0-9_]+$/&#x27;</span>, <span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>])) &#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>攻击者可以发送 GET 参数为 <code>name[]=1&#39;</code> ，产生 <code>$sql = &quot;SELECT * FROM users WHERE name = [1&#39;]&quot;</code> 成功绕过。</p>
-<p><strong>利用对象绕过 stripslashes()：</strong></p>
-<p>stripslashes()可以通过数组绕过，也可以通过对象绕过:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>] = <span class="title function_ invoke__">stripslashes</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>]);</span><br><span class="line"><span class="variable">$name</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>];</span><br></pre></td></tr></table></figure>
-
-<p>攻击者可以构造:<code>POST: &#123;&quot;name&quot;: &#123;&quot;value&quot;: &quot;xiaoming&#39; OR 1=1 #&quot; &#125;&#125;</code></p>
-<p>这会产生 <code>$name = &#123;&quot;value&quot;: &quot;xiaoming&#39; OR 1=1 # &quot;&#125;</code>，成功绕过stripslashes()。</p>
-<p><strong>利用 JSON 绕过 mysql_real_escape_string()：</strong></p>
-<p>和之前提到的利用JSON绕过magic_quotes_gpc类似，攻击者也可以利用JSON绕过mysql_real_escape_string():</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$name</span> = <span class="title function_ invoke__">mysql_real_escape_string</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>]);</span><br><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users WHERE name = &#x27;<span class="subst">$name</span>&#x27;&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<p>攻击者发送<code>POST: &#123;&quot;name&quot;: &quot;xiaoming&#39; OR 1=1 # &quot;&#125; </code></p>
-<p>这会产生 <code>$sql = &quot;SELECT * FROM users WHERE name = &#39;xiaoming\&#39; OR 1=1 # &#39;&quot;</code>，成功SQL注入。</p>
-<p><strong>利用十六进制绕过preg_match()preg_match()：</strong></p>
-<p>在匹配字符串时不会验证十六进制编码的数据，攻击者可以利用这点绕过：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/^[\da-z]+$/i&#x27;</span>, <span class="variable">$_GET</span>[<span class="string">&#x27;input&#x27;</span>])) &#123;</span><br><span class="line">    <span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users WHERE name = <span class="subst">&#123;$_GET[&#x27;input&#x27;]&#125;</span>&quot;</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>攻击者可以发送input=0x78，这会产生 <code>$sql = &quot;SELECT * FROM users WHERE name = 0x78&quot;</code> ，成功绕过正则匹配的验证。</p>
-<p>其他更多姿势等待搜集整理，关键还是在弱类型比较中会产生<strong>类型转换</strong></p>
-<h2 id="PHP代码注入"><a href="#PHP代码注入" class="headerlink" title="PHP代码注入"></a>PHP代码注入</h2><p>（目前没遇到太多，具体操作不是很清晰）</p>
-<h3 id="简述："><a href="#简述：" class="headerlink" title="简述："></a>简述：</h3><p>PHP代码注入是一种代码执行漏洞，它允许攻击者向应用提交恶意代码，由应用执行。这通常是由于应用直接在PHP中执行<strong>用户提交的数据</strong>造成的。</p>
-<h3 id="原理：-1"><a href="#原理：-1" class="headerlink" title="原理："></a>原理：</h3><p>PHP代码注入的形成是因为PHP支持<strong>动态语句执行</strong>和<strong>变量解析替换</strong>。当用户输入的数据被直接用于动态构造语句时，攻击者可以通过特殊构造输入将其作为PHP代码执行，这就导致了代码注入。</p>
-<h3 id="简单例子："><a href="#简单例子：" class="headerlink" title="简单例子："></a>简单例子：</h3><p><strong>获取系统信息</strong></p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$input</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;input&#x27;</span>];</span><br><span class="line">    <span class="keyword">eval</span>(<span class="variable">$input</span>);  </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>访问:<code>?input=phpinfo();</code>这会执行phpinfo()函数显示PHP配置信息。</p>
-<p><strong>读取敏感文件</strong></p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$file</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="variable">$file</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>访问:<code>?file=index.php</code>这会显示index.php文件的源代码。</p>
-<p><strong>执行系统命令</strong></p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$cmd</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;cmd&#x27;</span>]; </span><br><span class="line">    <span class="title function_ invoke__">system</span>(<span class="variable">$cmd</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>访问:?cmd=whoami<br>这会执行whoami命令显示当前用户。</p>
-<p>以上样例演示了php部分函数能直接执行提交的恶意数据，导致非预期的结果，实际中可能会有多种过滤和函数禁用，需要具体情况具体分析，查阅PHP手册进行绕过</p>
-<h3 id="危险的函数："><a href="#危险的函数：" class="headerlink" title="危险的函数："></a>危险的函数：</h3><p>代码执行函数：eval()， assert(), </p>
-<p>正则匹配函数：preg_replace(), </p>
-<p>动态代码执行函数：create_function()，call_user_func()，call_user_func_array()。</p>
-<h3 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h3><p><a href="https://3wapp.github.io/WebSecurity/php_cmdinject.html">PHP代码执行与命令注入 · Wiki | janes</a></p>
-<p><a href="http://www.beesfun.com/2017/04/18/PHP%E4%BB%A3%E7%A0%81%E6%B3%A8%E5%85%A5%E5%92%8C%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/">PHP代码注入和命令注入 | bees’ blog</a></p>
-<p><a href="https://blog.csdn.net/qq_41901122/article/details/104244366">PHP 代码注入知识点总结_if (isset(_星球守护者的博客-CSDN博客</a></p>
-<p><a href="https://www.freebuf.com/column/166385.html">PHP代码命令注入小结 - FreeBuf网络安全行业门户</a></p>
-<p>[<a href="https://www.cnblogs.com/jpSpaceX/articles/14900803.html">渗透测试]：PHP代码注入 - jpSpaceX - 博客园</a></p>
-<h2 id="PHP伪协议"><a href="#PHP伪协议" class="headerlink" title="PHP伪协议"></a>PHP伪协议</h2><p>（感觉遇到了会用就行，前人已经总结得很完善了，就不再造轮子了）</p>
-<p>简述：PHP伪协议是PHP代码中使用的特殊协议,它允许读取本地数据流、文件等资源。</p>
-<p>利用方式：</p>
-<p><a href="https://segmentfault.com/a/1190000018991087">PHP伪协议总结 - 个人文章 - SegmentFault 思否</a></p>
-<p><a href="https://www.cnblogs.com/wjrblogs/p/12285202.html">CTF中常用的php伪协议利用 - 1ndex- - 博客园</a></p>
-<p><a href="https://www.hetianlab.com/hetian/20210906145653">PHP伪协议的妙用 - 合天网安实验室</a></p>
-]]></content>
-      <categories>
-        <category>CTF</category>
-      </categories>
-      <tags>
-        <tag>PHP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CVE-2022-29221复现</title>
     <url>/2023/05/16/CVE-2022-29221%E5%A4%8D%E7%8E%B0/</url>
     <content><![CDATA[<p>上周三WEB组的任务，白神真的会上压力，不过感觉复现一个CVE提升挺大的（特别是配环境环节，呵呵了），一下子弄懂了好多</p>
@@ -437,6 +321,122 @@
       </categories>
       <tags>
         <tag>CVE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PHP代码审计学习笔记（施工中）</title>
+    <url>/2023/05/10/PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E6%96%BD%E5%B7%A5%E4%B8%AD%EF%BC%89/</url>
+    <content><![CDATA[<p>一点PHPtricks，正在学习更新中</p>
+<p>“PHP是世界上最好的语言” ^^</p>
+<span id="more"></span>
+
+<h1 id="PHP代码审计学习笔记（施工中）"><a href="#PHP代码审计学习笔记（施工中）" class="headerlink" title="PHP代码审计学习笔记（施工中）"></a>PHP代码审计学习笔记（施工中）</h1><h2 id="PHP弱类型比较"><a href="#PHP弱类型比较" class="headerlink" title="PHP弱类型比较"></a>PHP弱类型比较</h2><h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><p>PHP是一门弱类型语言,这意味着同一变量可以在不同时间存放不同类型的数据。由于PHP的弱类型特征,在部分比较操作符（== 、&gt; 、&lt; 等）比较<strong>不同类型的数据</strong>时，会进行<strong>类型转换</strong>后再比较，这可能导致一些非预期的结果。</p>
+<h3 id="例子："><a href="#例子：" class="headerlink" title="例子："></a>例子：</h3><p><strong>一、字符串与整型比较</strong></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;10&#x27;</span> == <span class="number">10</span>        <span class="comment">// true </span></span><br><span class="line"><span class="string">&#x27;10&#x27;</span> === <span class="number">10</span>       <span class="comment">// false</span></span><br><span class="line"><span class="string">&#x27;10foo&#x27;</span> &gt; <span class="number">5</span>        <span class="comment">// true </span></span><br></pre></td></tr></table></figure>
+
+<p>在 == 比较时，字符串’10’会转换为整型10，所以相等。但 === 全等比较不会发生类型转换，所以不相等。<br>在 &gt; 比较时，’10foo’ 被解析为10，所以 ‘10foo’ &gt; 5返回true。</p>
+<p><strong>二、空字符串与零比较</strong></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;</span> == <span class="number">0</span>           <span class="comment">// true </span></span><br><span class="line"><span class="string">&#x27;&#x27;</span> === <span class="number">0</span>          <span class="comment">// false </span></span><br></pre></td></tr></table></figure>
+
+<p> 在 == 比较中，空字符串 ‘’ 被转换为0，所以相等。但 === 全等比较不转换类型,所以不相等。</p>
+<p>注：<strong>0、[]、[0]、null</strong>和任意字符进行<strong>弱类型比较</strong>都相等</p>
+<p><strong>三、空数组与零比较</strong></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">[] == <span class="number">0</span>           <span class="comment">// true </span></span><br><span class="line">[] === <span class="number">0</span>          <span class="comment">// false </span></span><br></pre></td></tr></table></figure>
+
+<p> [] 被转换为0进行 == 比较，所以相等。但===不会转换类型,所以不相等。</p>
+<p><strong>四、空与 NULL 比较</strong> </p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;</span> == <span class="literal">null</span>        <span class="comment">// true </span></span><br><span class="line"><span class="string">&#x27;&#x27;</span> === <span class="literal">null</span>       <span class="comment">// false </span></span><br></pre></td></tr></table></figure>
+
+<p> == 比较时，null被转换为 ‘’ ，所以相等。但===不会转换类型,所以不相等。</p>
+<h3 id="常见的利用类型"><a href="#常见的利用类型" class="headerlink" title="常见的利用类型"></a>常见的利用类型</h3><h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a href="https://flag0.com/2019/09/20/php%E5%BC%B1%E7%B1%BB%E5%9E%8B/">php弱类型、强类型总结 | flag0’s Blog</a></p>
+<h4 id="补充："><a href="#补充：" class="headerlink" title="补充："></a>补充：</h4><h5 id="md5绕过的技巧"><a href="#md5绕过的技巧" class="headerlink" title="md5绕过的技巧"></a>md5绕过的技巧</h5><p><a href="https://cloud.tencent.com/developer/beta/article/2070130">关于md5的绕过技巧-腾讯云开发者社区-腾讯云</a></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$str1</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;str1&#x27;</span>];</span><br><span class="line"><span class="variable">$str2</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;str2&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">md5</span>(<span class="variable">$str1</span>) == <span class="title function_ invoke__">md5</span>(<span class="variable">$str2</span>))&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&#x27;OK&#x27;</span>; </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//?str1 = s1885207154a&amp;str2 = s1091221200a</span></span><br></pre></td></tr></table></figure>
+
+<p>注意到比较的时候是弱类型比较，所以……</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$str1</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;str1&#x27;</span>];</span><br><span class="line"><span class="variable">$str2</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;str2&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">md5</span>(<span class="variable">$str1</span>) === <span class="title function_ invoke__">md5</span>(<span class="variable">$str2</span>)) &#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&#x27;OK&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//?str1[]=1&amp;str2[]=2</span></span><br></pre></td></tr></table></figure>
+
+<p>PHP自身的特性使得可以提交一个数组，而md5函数传入数组的返回值都是NULL，这样就可以绕过强类型比较了。所以这里用GET传入就行了</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$str1</span> = (<span class="keyword">string</span>)<span class="variable">$_GET</span>[<span class="string">&#x27;str1&#x27;</span>];</span><br><span class="line"><span class="variable">$str2</span> = (<span class="keyword">string</span>)<span class="variable">$_GET</span>[<span class="string">&#x27;str2&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">md5</span>(<span class="variable">$str1</span>) === <span class="title function_ invoke__">md5</span>(<span class="variable">$str2</span>)) &#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&#x27;OK&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于强制类型转换，所以不能传入数组了，这里就需要MD5碰撞：</p>
+<p>一个关于md5碰撞功能的网页：<a href="https://www.win.tue.nl/hashclash/">HashClash</a></p>
+<h5 id="其他例子："><a href="#其他例子：" class="headerlink" title="其他例子："></a>其他例子：</h5><p><strong>绕过is_numeric()函数：</strong></p>
+<p>is_numeric()用于判断变量是否为数字，但是它实际检测的是<strong>变量是否可以转换为数字</strong>。所以:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">is_numeric</span>(<span class="string">&#x27;1foo&#x27;</span>)   <span class="comment">// true </span></span><br><span class="line"><span class="title function_ invoke__">is_numeric</span>(<span class="string">&#x27;foo1&#x27;</span>)   <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<p>‘1foo’ 可以转换为1，所以返回true。攻击者可以通过构造类似 ‘1e10’ 来绕过is_numeric()检测。</p>
+<p><strong>利用隐式类型转换绕过空验证：</strong></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>] != <span class="string">&#x27;&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Welcome <span class="subst">&#123;$_GET[&#x27;name&#x27;]&#125;</span>&quot;</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上代码试图避免空字符串注入，但是攻击者可以发送name=0或name=1。因为PHP会将其隐式转换为字符串 ‘0’ 或 ‘1’ 。</p>
+<p><strong>利用JSON绕过magic_quotes_gpc：</strong></p>
+<p>PHP的魔术引号magic_quotes_gpc可以自动对POST、GET、COOKIE数据进行转义，来防范SQL注入。但是，当magic_quotes_gpc开启时，攻击者可以通过JSON数据绕过:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">POST: &#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;xiaoming&#x27; OR 1=1 #&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$data</span> = <span class="title function_ invoke__">json_decode</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;data&#x27;</span>]);</span><br><span class="line"><span class="variable">$name</span> = <span class="variable">$data</span>-&gt;name;   <span class="comment">// $name = xiaoming&#x27; OR 1=1 #</span></span><br></pre></td></tr></table></figure>
+
+<p>因为json_decode()会解析JSON并返回object，魔术引号不会对其转义。</p>
+<p><strong>利用数组绕过stripslashes()：</strong></p>
+<p>stripslashes()用于去除反斜杠转义，如果传入双引号字符串，它可以有效防止SQL注入。但是，攻击者可以通过数组绕过:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users WHERE name = <span class="subst">&#123;$_GET[&#x27;name&#x27;]&#125;</span>&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">get_magic_quotes_gpc</span>()) &#123;</span><br><span class="line">    <span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>] = <span class="title function_ invoke__">stripslashes</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>利用数组绕过preg_match()：</strong></p>
+<p>preg_match()用于正则匹配，如果传入字符串会有效防止SQL注入。但是，攻击者可以发送数组绕过:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users WHERE name = <span class="subst">&#123;$_GET[&#x27;name&#x27;]&#125;</span>&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/^[a-zA-Z0-9_]+$/&#x27;</span>, <span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>])) &#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>攻击者可以发送 GET 参数为 <code>name[]=1&#39;</code> ，产生 <code>$sql = &quot;SELECT * FROM users WHERE name = [1&#39;]&quot;</code> 成功绕过。</p>
+<p><strong>利用对象绕过 stripslashes()：</strong></p>
+<p>stripslashes()可以通过数组绕过，也可以通过对象绕过:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>] = <span class="title function_ invoke__">stripslashes</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>]);</span><br><span class="line"><span class="variable">$name</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>];</span><br></pre></td></tr></table></figure>
+
+<p>攻击者可以构造:<code>POST: &#123;&quot;name&quot;: &#123;&quot;value&quot;: &quot;xiaoming&#39; OR 1=1 #&quot; &#125;&#125;</code></p>
+<p>这会产生 <code>$name = &#123;&quot;value&quot;: &quot;xiaoming&#39; OR 1=1 # &quot;&#125;</code>，成功绕过stripslashes()。</p>
+<p><strong>利用 JSON 绕过 mysql_real_escape_string()：</strong></p>
+<p>和之前提到的利用JSON绕过magic_quotes_gpc类似，攻击者也可以利用JSON绕过mysql_real_escape_string():</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$name</span> = <span class="title function_ invoke__">mysql_real_escape_string</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>]);</span><br><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users WHERE name = &#x27;<span class="subst">$name</span>&#x27;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>攻击者发送<code>POST: &#123;&quot;name&quot;: &quot;xiaoming&#39; OR 1=1 # &quot;&#125; </code></p>
+<p>这会产生 <code>$sql = &quot;SELECT * FROM users WHERE name = &#39;xiaoming\&#39; OR 1=1 # &#39;&quot;</code>，成功SQL注入。</p>
+<p><strong>利用十六进制绕过preg_match()preg_match()：</strong></p>
+<p>在匹配字符串时不会验证十六进制编码的数据，攻击者可以利用这点绕过：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/^[\da-z]+$/i&#x27;</span>, <span class="variable">$_GET</span>[<span class="string">&#x27;input&#x27;</span>])) &#123;</span><br><span class="line">    <span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users WHERE name = <span class="subst">&#123;$_GET[&#x27;input&#x27;]&#125;</span>&quot;</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>攻击者可以发送input=0x78，这会产生 <code>$sql = &quot;SELECT * FROM users WHERE name = 0x78&quot;</code> ，成功绕过正则匹配的验证。</p>
+<p>其他更多姿势等待搜集整理，关键还是在弱类型比较中会产生<strong>类型转换</strong></p>
+<h2 id="PHP代码注入"><a href="#PHP代码注入" class="headerlink" title="PHP代码注入"></a>PHP代码注入</h2><p>（目前没遇到太多，具体操作不是很清晰）</p>
+<h3 id="简述："><a href="#简述：" class="headerlink" title="简述："></a>简述：</h3><p>PHP代码注入是一种代码执行漏洞，它允许攻击者向应用提交恶意代码，由应用执行。这通常是由于应用直接在PHP中执行<strong>用户提交的数据</strong>造成的。</p>
+<h3 id="原理：-1"><a href="#原理：-1" class="headerlink" title="原理："></a>原理：</h3><p>PHP代码注入的形成是因为PHP支持<strong>动态语句执行</strong>和<strong>变量解析替换</strong>。当用户输入的数据被直接用于动态构造语句时，攻击者可以通过特殊构造输入将其作为PHP代码执行，这就导致了代码注入。</p>
+<h3 id="简单例子："><a href="#简单例子：" class="headerlink" title="简单例子："></a>简单例子：</h3><p><strong>获取系统信息</strong></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$input</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;input&#x27;</span>];</span><br><span class="line">    <span class="keyword">eval</span>(<span class="variable">$input</span>);  </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>访问:<code>?input=phpinfo();</code>这会执行phpinfo()函数显示PHP配置信息。</p>
+<p><strong>读取敏感文件</strong></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$file</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="variable">$file</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>访问:<code>?file=index.php</code>这会显示index.php文件的源代码。</p>
+<p><strong>执行系统命令</strong></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$cmd</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;cmd&#x27;</span>]; </span><br><span class="line">    <span class="title function_ invoke__">system</span>(<span class="variable">$cmd</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>访问:?cmd=whoami<br>这会执行whoami命令显示当前用户。</p>
+<p>以上样例演示了php部分函数能直接执行提交的恶意数据，导致非预期的结果，实际中可能会有多种过滤和函数禁用，需要具体情况具体分析，查阅PHP手册进行绕过</p>
+<h3 id="危险的函数："><a href="#危险的函数：" class="headerlink" title="危险的函数："></a>危险的函数：</h3><p>代码执行函数：eval()， assert(), </p>
+<p>正则匹配函数：preg_replace(), </p>
+<p>动态代码执行函数：create_function()，call_user_func()，call_user_func_array()。</p>
+<h3 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h3><p><a href="https://3wapp.github.io/WebSecurity/php_cmdinject.html">PHP代码执行与命令注入 · Wiki | janes</a></p>
+<p><a href="http://www.beesfun.com/2017/04/18/PHP%E4%BB%A3%E7%A0%81%E6%B3%A8%E5%85%A5%E5%92%8C%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/">PHP代码注入和命令注入 | bees’ blog</a></p>
+<p><a href="https://blog.csdn.net/qq_41901122/article/details/104244366">PHP 代码注入知识点总结_if (isset(_星球守护者的博客-CSDN博客</a></p>
+<p><a href="https://www.freebuf.com/column/166385.html">PHP代码命令注入小结 - FreeBuf网络安全行业门户</a></p>
+<p>[<a href="https://www.cnblogs.com/jpSpaceX/articles/14900803.html">渗透测试]：PHP代码注入 - jpSpaceX - 博客园</a></p>
+<h2 id="PHP伪协议"><a href="#PHP伪协议" class="headerlink" title="PHP伪协议"></a>PHP伪协议</h2><p>（感觉遇到了会用就行，前人已经总结得很完善了，就不再造轮子了）</p>
+<p>简述：PHP伪协议是PHP代码中使用的特殊协议,它允许读取本地数据流、文件等资源。</p>
+<p>利用方式：</p>
+<p><a href="https://segmentfault.com/a/1190000018991087">PHP伪协议总结 - 个人文章 - SegmentFault 思否</a></p>
+<p><a href="https://www.cnblogs.com/wjrblogs/p/12285202.html">CTF中常用的php伪协议利用 - 1ndex- - 博客园</a></p>
+<p><a href="https://www.hetianlab.com/hetian/20210906145653">PHP伪协议的妙用 - 合天网安实验室</a></p>
+]]></content>
+      <categories>
+        <category>CTF</category>
+      </categories>
+      <tags>
+        <tag>PHP</tag>
       </tags>
   </entry>
   <entry>
@@ -727,7 +727,7 @@
 
 <h5 id="条件信号赋值语句"><a href="#条件信号赋值语句" class="headerlink" title="条件信号赋值语句"></a>条件信号赋值语句</h5><figure class="highlight vhdl"><table><tr><td class="code"><pre><span class="line">aim &lt;= expression1 <span class="keyword">when</span> value1 <span class="keyword">else</span></span><br><span class="line">       expression2 <span class="keyword">when</span> value2 <span class="keyword">else</span></span><br><span class="line">       expression3;    </span><br></pre></td></tr></table></figure>
 
-<h5 id="选择信号赋值"><a href="#选择信号赋值" class="headerlink" title="选择信号赋值"></a>选择信号赋值</h5><figure class="highlight vhdl"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> 选择表达式 <span class="keyword">select</span> </span><br><span class="line">    aim &lt;= expression1 <span class="keyword">when</span> value1,</span><br><span class="line">		   expression2 <span class="keyword">when</span> value2,</span><br><span class="line">		   expression3 <span class="keyword">when</span> <span class="keyword">others</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="选择信号赋值"><a href="#选择信号赋值" class="headerlink" title="选择信号赋值"></a>选择信号赋值</h5><figure class="highlight vhdl"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> 选择表达式 <span class="keyword">select</span> </span><br><span class="line">    aim &lt;= expression1 <span class="keyword">when</span> value1,</span><br><span class="line">		expression2 <span class="keyword">when</span> value2,</span><br><span class="line">		expression3 <span class="keyword">when</span> <span class="keyword">others</span>;</span><br></pre></td></tr></table></figure>
 
 <h2 id="4、VHDL描述风格"><a href="#4、VHDL描述风格" class="headerlink" title="4、VHDL描述风格"></a>4、VHDL描述风格</h2><p>综述：</p>
 <p>VHDL 的架构具体描述整个实体的逻辑功能，对于相同的电路功能，在架构中可以用不同的语句类型和描述方法来表达。主要有三种：行为描述，RTL 描述（数据流描述）和结构描述。其中RTL指的是寄存器传输语言。</p>
