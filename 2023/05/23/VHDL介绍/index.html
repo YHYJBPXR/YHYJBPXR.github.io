@@ -28,7 +28,7 @@
 <meta property="og:description" content="小孩不懂事，写着玩的。 由于对数电课件极度不满意，简直依托，在瞎几把看几天祖传代码和文档后，写出来的。感觉缺点是少了一些简单的例子，但是也懒得搞了，实际上只要对着祖传代码看就行，哪一句不懂就翻翻，或者查查，很快就能明白。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-05-23T13:06:07.000Z">
-<meta property="article:modified_time" content="2023-05-23T14:08:47.761Z">
+<meta property="article:modified_time" content="2023-06-05T13:51:13.489Z">
 <meta property="article:author" content="YHYJ">
 <meta property="article:tag" content="博客, YHYJ">
 <meta name="twitter:card" content="summary">
@@ -224,23 +224,29 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-05-23 21:06:07 / 修改时间：22:08:47" itemprop="dateCreated datePublished" datetime="2023-05-23T21:06:07+08:00">2023-05-23</time>
+              <time title="创建时间：2023-05-23 21:06:07" itemprop="dateCreated datePublished" datetime="2023-05-23T21:06:07+08:00">2023-05-23</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-06-05 21:51:13" itemprop="dateModified" datetime="2023-06-05T21:51:13+08:00">2023-06-05</time>
+              </span>
 
           
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
               </span>
-              <span>11k</span>
+              <span>10k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
-              <span>10 分钟</span>
+              <span>9 分钟</span>
             </span>
 
         </div>
@@ -257,14 +263,14 @@
 <span id="more"></span>
 
 <h1 id="VHDL简单手册"><a href="#VHDL简单手册" class="headerlink" title="VHDL简单手册"></a>VHDL简单手册</h1><h2 id="0、介绍"><a href="#0、介绍" class="headerlink" title="0、介绍"></a>0、介绍</h2><p>什么是VHDL？</p>
-<p>VHDL是一种硬件描述语言（Hardware Description Language），用于描述数字系统的结构和行为。它允许设计人员使用一种与传统编程语言相似的语法来描述数字系统。VHDL既可以算是一种编程语言，也可以算是一种硬件描述语言，但更倾向于<strong>硬件描述语言</strong>。</p>
+<p>VHDL是用来描述硬件的一种语言，也叫硬件描述语言（Hardware Description Language）。它允许开发人员使用一种与编程语言相似的语法来描述数字系统。</p>
 <blockquote>
-<p>从语法和结构上来说，VHDL确实像一种编程语言，它有变量、信号、过程、函数、包、类型等编程语言的要素。设计人员可以用类似编程的方式来描述硬件系统和行为。但是，VHDL的目的和功能与一般编程语言还是有本质差异的:</p>
+<p>VHDL是一种描述语言，而不是编程语言，从语法和结构上来说，VHDL具有编程语言各个要素，有变量、信号、过程、函数、包、类型等等，开发人员可以用编程的方式来描述数字系统的结构和行为，但从目的和功能上来说，VHDL与一般编程语言还是有本质的区别，如：</p>
 <ol>
-<li>VHDL的最终目标是生成物理的数字电路实现，而不是只在计算机上运行。</li>
-<li>VHDL需要对时钟、同步复位等硬件相关的概念进行精确描述和处理。这需要硬件设计的思维方式和知识。</li>
-<li>VHDL的执行模型是并行的，它定义了硬件中所有信号的并行变化方式。这与顺序执行的软件语言有本质区别。</li>
-<li>VHDL是强类型语言，它严格限定了每条信号和变量的类型，以确保最终实现的电路稳定性和正确性。这种静态类型检查与软件语言也不同。</li>
+<li>VHDL最终是要生成物理的数字电路，而不是只在计算机上运行。</li>
+<li>VHDL需要精确的描述与硬件相关的时钟、同步复位、异步复位等概念。</li>
+<li>VHDL是并行执行的，这与顺序执行的软件语言有本质区别。</li>
+<li>VHDL是强类型语言，它严格限定了每条信号和变量的类型，来确保最终实现的电路稳定和正确。</li>
 </ol>
 </blockquote>
 <h2 id="1、VHDL语言结构"><a href="#1、VHDL语言结构" class="headerlink" title="1、VHDL语言结构"></a>1、VHDL语言结构</h2><p>（至少也得清楚它的结构吧）</p>
@@ -366,7 +372,7 @@
 
 <ul>
 <li>用法：变量用于在<strong>过程内部</strong>声明，并且<strong>只能</strong>在过程内部使用。变量可以在过程中被赋值和修改，并且具有<strong>局部作用域</strong>。变量可以用于存储中间结果、计算值或者临时存储数据。</li>
-<li>行为：变量的赋值操作是立即生效的，并且可以多次赋值和修改。变量的赋值操作是阻塞的，即变量的值在赋值语句结束之后立即更新。（阻塞赋值：立即赋予新值，直到下次赋值；无阻塞赋值：虽然被赋予新值，但是直到当前进程结束才更新）</li>
+<li>行为：变量的赋值操作是立即生效的，并且可以多次赋值和修改。即变量的赋值操作是阻塞的，也就是变量的值在赋值语句结束之后立即更新。（阻塞赋值：立即赋予新值，直到下次赋值；无阻塞赋值：虽然被赋予新值，但是直到当前进程结束才更新）</li>
 </ul>
 <p>由于变量的局部作用特点，通常用于组合逻辑中的数据传输。</p>
 <h4 id="常量（Constant）："><a href="#常量（Constant）：" class="headerlink" title="常量（Constant）："></a><strong>常量（Constant）</strong>：</h4><ul>
