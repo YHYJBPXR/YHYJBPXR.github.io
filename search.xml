@@ -1,6 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CTF中常见的编码方式和加密方法（正在施工中）</title>
+    <url>/2023/05/01/CTF%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E7%BC%96%E7%A0%81%E6%96%B9%E5%BC%8F%E5%92%8C%E5%8A%A0%E5%AF%86%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<p>一些基础知识，了解即可</p>
+<span id="more"></span>
+
+<h1 id="CTF常见的加密方式与编码方法总结（正在施工中）"><a href="#CTF常见的加密方式与编码方法总结（正在施工中）" class="headerlink" title="CTF常见的加密方式与编码方法总结（正在施工中）"></a>CTF常见的加密方式与编码方法总结（正在施工中）</h1><h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="2、4、8、16进制（自己了解下吧，感觉这块中学基础应该有）"><a href="#2、4、8、16进制（自己了解下吧，感觉这块中学基础应该有）" class="headerlink" title="2、4、8、16进制（自己了解下吧，感觉这块中学基础应该有）"></a>2、4、8、16进制（自己了解下吧，感觉这块中学基础应该有）</h3><h3 id="计算机内部处理数字的方式"><a href="#计算机内部处理数字的方式" class="headerlink" title="计算机内部处理数字的方式"></a>计算机内部处理数字的方式</h3><p><a href="https://www.cnblogs.com/zhangziqiu/archive/2011/03/30/computercode.html">原码, 反码, 补码 详解 - ziqiu.zhang - 博客园</a></p>
+<h3 id="字符集和字符编码"><a href="#字符集和字符编码" class="headerlink" title="字符集和字符编码"></a>字符集和字符编码</h3><p>字符集和字符编码是计算机科学中的两个相关概念，它们通常一起使用来表示和处理文本数据。</p>
+<p><strong>字符集</strong>是一组预定义的<strong>字符</strong>，每个字符都有一个唯一的标识符。例如，ASCII字符集定义了128个字符，包括字母、数字、标点符号和控制字符等。Unicode字符集则定义了超过100,000个字符，包括世界上大多数语言的字母、符号和表情符号等。</p>
+<p><strong>字符编码</strong>是将字符集中的每个字符转换为计算机能够处理的数字编码的<strong>过程</strong>。计算机只能处理二进制数字，因此需要将字符集中的字符转换为二进制数字才能存储和处理。例如，ASCII编码将每个字符映射到一个7位的二进制数，范围从0到127。Unicode编码则使用不同的方案，其中UTF-8编码是最常用的一种方式。UTF-8编码使用1到4个字节来表示Unicode字符，这使得它可以支持超过1百万种字符。</p>
+<p>可以这么理解，字符集是一个集合，字符编码是把字符对应到二进制数的一个映射。字符集定义了可用的字符集合，而字符编码定义了如何将这些字符转换为计算机能够处理的数字编码。</p>
+<p>在实际应用中，字符集和字符编码往往被视为一个整体，通常使用术语“字符编码”来指代它们的组合。</p>
+<h3 id="ASCII码"><a href="#ASCII码" class="headerlink" title="ASCII码"></a>ASCII码</h3><p><a href="https://zh.wikipedia.org/wiki/ASCII">ASCII - 维基百科，自由的百科全书</a></p>
+<h2 id="Base编码"><a href="#Base编码" class="headerlink" title="Base编码"></a>Base编码</h2><h3 id="Base编码的历史"><a href="#Base编码的历史" class="headerlink" title="Base编码的历史"></a>Base编码的历史</h3><p><a href="https://www.rfc-editor.org/rfc/pdfrfc/rfc4648.txt.pdf">Enscript Output (rfc-editor.org)</a></p>
+<p>Base编码是一种<strong>将二进制数据转换为文本形式的编码方式</strong>，最初用于电子邮件传输。因为之前的电子邮件系统当初是为了传输 7 位 ASCII 文本而设计的，只能传输文本数据，不能传输二进制数据，此外不同邮件网关会对接收到的信息进行不同处理，就会导致信息不完整等问题。</p>
+<p>因此，需要一种方法将二进制数据转换为文本数据，以便能够通过邮件系统进行传输。</p>
+<p>在1973年，Robert J. Haskins开发了一种基于64个字符的编码方式，称为Radix-64编码。这种编码方式使用了26个大写字母、26个小写字母、10个数字和2个特殊符号（+和/），共计64个字符。Radix-64编码将3个8位的二进制数据块转换为4个6位的字符，因此<strong>可以将任意二进制数据编码为可打印的ASCII字符</strong>。Radix-64编码在后来的邮件系统中得到了广泛应用，成为了电子邮件传输中的标准编码方式。</p>
+<p>在1990年代，Base编码成为了因特网传输中的常用编码方式之一。Base64编码是Radix-64编码的一种变种，它将3个8位的二进制数据块转换为4个6位的字符，使用的字符集为A-Z、a-z、0-9和两个特殊符号（+和/）。Base64编码在Web应用中得到广泛应用，例如将图片和其他二进制数据嵌入HTML代码中进行传输。</p>
+<p>除了Base64编码外，还有许多其他的Base编码方式，例如Base16、Base32等。这些编码方式使用的字符集和编码算法都不同，但它们的基本原理相同，即将<strong>二进制数据转换为文本数据</strong>以便进行传输。</p>
+<h3 id="Base编码的原理"><a href="#Base编码的原理" class="headerlink" title="Base编码的原理"></a>Base编码的原理</h3><p><a href="https://www.cnblogs.com/0yst3r-2046/p/11962942.html">Base系列编码浅析【base16 base32 base64 base85 base36 base 58 base91 base 92 base62】 - 0yst3r - 博客园</a></p>
+<h3 id="Base编码的工具"><a href="#Base编码的工具" class="headerlink" title="Base编码的工具"></a>Base编码的工具</h3><p><a href="https://ctf.bugku.com/tools">在线工具 - Bugku CTF</a></p>
+<p><a href="https://github.com/mufeedvh/basecrack">mufeedvh/basecrack: Decode All Bases - Base Scheme Decoder</a></p>
+<h3 id="在python中实现"><a href="#在python中实现" class="headerlink" title="在python中实现"></a>在python中实现</h3><p>在Python中，可以使用标准库中的 <code>base64</code> 模块实现多种不同的 Base 编码。该模块支持以下几种 Base 编码格式：</p>
+<ul>
+<li>Base16（也称为 Hex 编码）：使用 16 个字符（0-9 和 A-F）表示二进制数据。</li>
+<li>Base32：使用 32 个字符（A-Z 和 2-7）表示二进制数据。</li>
+<li>Base64：使用 64 个字符（A-Z、a-z、0-9 和 + /）表示二进制数据。</li>
+<li>Base85：使用 85 个字符表示二进制数据，每个字符可以表示 4 个字节。</li>
+</ul>
+<p>这些编码格式都是基于一组固定的字符集，将二进制数据转换为一串可打印的字符。这些编码格式在实际应用中有不同的优缺点，可以根据需要选择合适的编码格式。</p>
+<p>在 <code>base64</code> 模块中，可以使用以下方法来进行不同的编码和解码操作：</p>
+<ul>
+<li><code>base64.b16encode()</code> 和 <code>base64.b16decode()</code>：用于 Base16 编码和解码。</li>
+<li><code>base64.b32encode()</code> 和 <code>base64.b32decode()</code>：用于 Base32 编码和解码。</li>
+<li><code>base64.b64encode()</code> 和 <code>base64.b64decode()</code>：用于 Base64 编码和解码。</li>
+<li><code>base64.a85encode()</code> 和 <code>base64.a85decode()</code>：用于 Base85 编码和解码。</li>
+</ul>
+<p>这些方法接受 <strong>bytes 类型</strong>的数据作为输入，并返回 <strong>bytes 类型</strong>的编码结果。如果需要将编码结果转换为字符串类型，可以使用 <code>.decode()</code> 方法将 bytes 对象转换为字符串。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#例子</span></span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line"><span class="comment"># 要编码的二进制数据</span></span><br><span class="line">data = <span class="string">&#x27;Hello, World!&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用base64进行编码</span></span><br><span class="line">encoded_data = base64.b64encode(data)</span><br><span class="line"><span class="built_in">print</span>(encoded_data)  <span class="comment"># 输出 &#x27;SGVsbG8sIFdvcmxkIQ==\n&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用base64进行解码</span></span><br><span class="line">decoded_data = base64.b64decode(encoded_data)</span><br><span class="line"><span class="built_in">print</span>(decoded_data)  <span class="comment"># 输出 &#x27;Hello, World!&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 把编码结果转换为字符串类型</span></span><br><span class="line">b64_str = b64_data.decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(b64_str)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>CTF</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2023/04/07/Hello-World/</url>
     <content><![CDATA[<h1 id="未竟之旅"><a href="#未竟之旅" class="headerlink" title="未竟之旅"></a>未竟之旅</h1><p>记录一下第一篇文章</p>
@@ -277,51 +322,6 @@
       <tags>
         <tag>CVE</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>CTF中常见的编码方式和加密方法（正在施工中）</title>
-    <url>/2023/05/01/CTF%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E7%BC%96%E7%A0%81%E6%96%B9%E5%BC%8F%E5%92%8C%E5%8A%A0%E5%AF%86%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<p>一些基础知识，了解即可</p>
-<span id="more"></span>
-
-<h1 id="CTF常见的加密方式与编码方法总结（正在施工中）"><a href="#CTF常见的加密方式与编码方法总结（正在施工中）" class="headerlink" title="CTF常见的加密方式与编码方法总结（正在施工中）"></a>CTF常见的加密方式与编码方法总结（正在施工中）</h1><h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="2、4、8、16进制（自己了解下吧，感觉这块中学基础应该有）"><a href="#2、4、8、16进制（自己了解下吧，感觉这块中学基础应该有）" class="headerlink" title="2、4、8、16进制（自己了解下吧，感觉这块中学基础应该有）"></a>2、4、8、16进制（自己了解下吧，感觉这块中学基础应该有）</h3><h3 id="计算机内部处理数字的方式"><a href="#计算机内部处理数字的方式" class="headerlink" title="计算机内部处理数字的方式"></a>计算机内部处理数字的方式</h3><p><a href="https://www.cnblogs.com/zhangziqiu/archive/2011/03/30/computercode.html">原码, 反码, 补码 详解 - ziqiu.zhang - 博客园</a></p>
-<h3 id="字符集和字符编码"><a href="#字符集和字符编码" class="headerlink" title="字符集和字符编码"></a>字符集和字符编码</h3><p>字符集和字符编码是计算机科学中的两个相关概念，它们通常一起使用来表示和处理文本数据。</p>
-<p><strong>字符集</strong>是一组预定义的<strong>字符</strong>，每个字符都有一个唯一的标识符。例如，ASCII字符集定义了128个字符，包括字母、数字、标点符号和控制字符等。Unicode字符集则定义了超过100,000个字符，包括世界上大多数语言的字母、符号和表情符号等。</p>
-<p><strong>字符编码</strong>是将字符集中的每个字符转换为计算机能够处理的数字编码的<strong>过程</strong>。计算机只能处理二进制数字，因此需要将字符集中的字符转换为二进制数字才能存储和处理。例如，ASCII编码将每个字符映射到一个7位的二进制数，范围从0到127。Unicode编码则使用不同的方案，其中UTF-8编码是最常用的一种方式。UTF-8编码使用1到4个字节来表示Unicode字符，这使得它可以支持超过1百万种字符。</p>
-<p>可以这么理解，字符集是一个集合，字符编码是把字符对应到二进制数的一个映射。字符集定义了可用的字符集合，而字符编码定义了如何将这些字符转换为计算机能够处理的数字编码。</p>
-<p>在实际应用中，字符集和字符编码往往被视为一个整体，通常使用术语“字符编码”来指代它们的组合。</p>
-<h3 id="ASCII码"><a href="#ASCII码" class="headerlink" title="ASCII码"></a>ASCII码</h3><p><a href="https://zh.wikipedia.org/wiki/ASCII">ASCII - 维基百科，自由的百科全书</a></p>
-<h2 id="Base编码"><a href="#Base编码" class="headerlink" title="Base编码"></a>Base编码</h2><h3 id="Base编码的历史"><a href="#Base编码的历史" class="headerlink" title="Base编码的历史"></a>Base编码的历史</h3><p><a href="https://www.rfc-editor.org/rfc/pdfrfc/rfc4648.txt.pdf">Enscript Output (rfc-editor.org)</a></p>
-<p>Base编码是一种<strong>将二进制数据转换为文本形式的编码方式</strong>，最初用于电子邮件传输。因为之前的电子邮件系统当初是为了传输 7 位 ASCII 文本而设计的，只能传输文本数据，不能传输二进制数据，此外不同邮件网关会对接收到的信息进行不同处理，就会导致信息不完整等问题。</p>
-<p>因此，需要一种方法将二进制数据转换为文本数据，以便能够通过邮件系统进行传输。</p>
-<p>在1973年，Robert J. Haskins开发了一种基于64个字符的编码方式，称为Radix-64编码。这种编码方式使用了26个大写字母、26个小写字母、10个数字和2个特殊符号（+和/），共计64个字符。Radix-64编码将3个8位的二进制数据块转换为4个6位的字符，因此<strong>可以将任意二进制数据编码为可打印的ASCII字符</strong>。Radix-64编码在后来的邮件系统中得到了广泛应用，成为了电子邮件传输中的标准编码方式。</p>
-<p>在1990年代，Base编码成为了因特网传输中的常用编码方式之一。Base64编码是Radix-64编码的一种变种，它将3个8位的二进制数据块转换为4个6位的字符，使用的字符集为A-Z、a-z、0-9和两个特殊符号（+和/）。Base64编码在Web应用中得到广泛应用，例如将图片和其他二进制数据嵌入HTML代码中进行传输。</p>
-<p>除了Base64编码外，还有许多其他的Base编码方式，例如Base16、Base32等。这些编码方式使用的字符集和编码算法都不同，但它们的基本原理相同，即将<strong>二进制数据转换为文本数据</strong>以便进行传输。</p>
-<h3 id="Base编码的原理"><a href="#Base编码的原理" class="headerlink" title="Base编码的原理"></a>Base编码的原理</h3><p><a href="https://www.cnblogs.com/0yst3r-2046/p/11962942.html">Base系列编码浅析【base16 base32 base64 base85 base36 base 58 base91 base 92 base62】 - 0yst3r - 博客园</a></p>
-<h3 id="Base编码的工具"><a href="#Base编码的工具" class="headerlink" title="Base编码的工具"></a>Base编码的工具</h3><p><a href="https://ctf.bugku.com/tools">在线工具 - Bugku CTF</a></p>
-<p><a href="https://github.com/mufeedvh/basecrack">mufeedvh/basecrack: Decode All Bases - Base Scheme Decoder</a></p>
-<h3 id="在python中实现"><a href="#在python中实现" class="headerlink" title="在python中实现"></a>在python中实现</h3><p>在Python中，可以使用标准库中的 <code>base64</code> 模块实现多种不同的 Base 编码。该模块支持以下几种 Base 编码格式：</p>
-<ul>
-<li>Base16（也称为 Hex 编码）：使用 16 个字符（0-9 和 A-F）表示二进制数据。</li>
-<li>Base32：使用 32 个字符（A-Z 和 2-7）表示二进制数据。</li>
-<li>Base64：使用 64 个字符（A-Z、a-z、0-9 和 + /）表示二进制数据。</li>
-<li>Base85：使用 85 个字符表示二进制数据，每个字符可以表示 4 个字节。</li>
-</ul>
-<p>这些编码格式都是基于一组固定的字符集，将二进制数据转换为一串可打印的字符。这些编码格式在实际应用中有不同的优缺点，可以根据需要选择合适的编码格式。</p>
-<p>在 <code>base64</code> 模块中，可以使用以下方法来进行不同的编码和解码操作：</p>
-<ul>
-<li><code>base64.b16encode()</code> 和 <code>base64.b16decode()</code>：用于 Base16 编码和解码。</li>
-<li><code>base64.b32encode()</code> 和 <code>base64.b32decode()</code>：用于 Base32 编码和解码。</li>
-<li><code>base64.b64encode()</code> 和 <code>base64.b64decode()</code>：用于 Base64 编码和解码。</li>
-<li><code>base64.a85encode()</code> 和 <code>base64.a85decode()</code>：用于 Base85 编码和解码。</li>
-</ul>
-<p>这些方法接受 <strong>bytes 类型</strong>的数据作为输入，并返回 <strong>bytes 类型</strong>的编码结果。如果需要将编码结果转换为字符串类型，可以使用 <code>.decode()</code> 方法将 bytes 对象转换为字符串。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#例子</span></span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line"><span class="comment"># 要编码的二进制数据</span></span><br><span class="line">data = <span class="string">&#x27;Hello, World!&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用base64进行编码</span></span><br><span class="line">encoded_data = base64.b64encode(data)</span><br><span class="line"><span class="built_in">print</span>(encoded_data)  <span class="comment"># 输出 &#x27;SGVsbG8sIFdvcmxkIQ==\n&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用base64进行解码</span></span><br><span class="line">decoded_data = base64.b64decode(encoded_data)</span><br><span class="line"><span class="built_in">print</span>(decoded_data)  <span class="comment"># 输出 &#x27;Hello, World!&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 把编码结果转换为字符串类型</span></span><br><span class="line">b64_str = b64_data.decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(b64_str)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>CTF</category>
-      </categories>
   </entry>
   <entry>
     <title>PHP代码审计学习笔记（施工中）</title>
@@ -746,6 +746,11 @@
 ]]></content>
   </entry>
   <entry>
+    <title></title>
+    <url>/2023/04/06/index/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>一些杂项</title>
     <url>/2023/04/19/%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/</url>
     <content><![CDATA[<p> 一些无意发现的东西</p>
@@ -780,6 +785,166 @@
       <tags>
         <tag>deBug</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>upload-lbas靶场学习</title>
+    <url>/2023/08/08/upload-lbas%E9%9D%B6%E5%9C%BA%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<p>#upload-labs靶场学习</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>项目地址：<a href="https://github.com/c0ny1/upload-labs">c0ny1/upload-labs: 一个想帮你总结所有类型的上传漏洞的靶场</a></p>
+<p>安装可按照项目地址下的说明进行，无痛开箱即用</p>
+<p>labs版本：V0.1 released in Jan 29, 2019</p>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><h3 id="客户端检验"><a href="#客户端检验" class="headerlink" title="客户端检验"></a>客户端检验</h3><p>L1</p>
+<p>前端JS检测绕过</p>
+<p>判断：分别上传图片和非图片文件，观察是否有流量包发出（如果没有说明是在本地检测的）</p>
+<p>方法：</p>
+<ol>
+<li>浏览器禁用JS或者bp-proxy-option中禁用JS</li>
+<li>上传png抓包修改后缀绕过前端验证</li>
+</ol>
+<p>L2</p>
+<p>MIME 类型检测绕过</p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Basics_of_HTTP/MIME_types">MIME 类型 - HTTP | MDN</a></p>
+<p><a href="https://www.runoob.com/http/http-content-type.html">HTTP content-type | 菜鸟教程</a></p>
+<p>常用的：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">image/gif, image/png, image/jpeg, image/bmp, image/webp</span><br><span class="line">text/plain, text/html, text/css, text/javascript</span><br><span class="line">audio/midi, audio/mpeg, audio/webm, audio/ogg, audio/wav</span><br></pre></td></tr></table></figure>
+
+<p>方法：</p>
+<p>抓包修改content-type为允许上传的后缀</p>
+<h3 id="黑名单绕过"><a href="#黑名单绕过" class="headerlink" title="黑名单绕过"></a>黑名单绕过</h3><p>L3</p>
+<p>有限黑名单绕过</p>
+<p>方法：</p>
+<ol>
+<li><p>可使用phtml和php1~5绕过</p>
+<blockquote>
+<p>phtml是包含PHP代码的网页；由Web服务器上的PHP引擎解析，动态生成HTML；通常用于数据库访问，例如从MySQL数据库检索数据；可以使用安装了PHP引擎的Apache或Windows服务器运行。<a href="https://fileinfo.cn/extension/phtml">PHTML格式–PHTML是什么文件？如何打开PHTML文件</a></p>
+<p>php1~5是表示特定版本的php文件</p>
+</blockquote>
+</li>
+<li><p>windows系统命名绕过</p>
+<blockquote>
+<p>过了后端检验，在目录下建创文件的时候会自动被windows系统命名为原来的后缀</p>
+<p>以<code>test.php</code>为例，可以尝试：</p>
+<ul>
+<li><code>test.php </code></li>
+<li><code>test.php. .</code></li>
+<li><code>test.php </code></li>
+<li><code>test.php:1.jpg</code></li>
+<li><code>test.php::$DATA</code></li>
+<li><code>test.php::$DATA......</code></li>
+<li><code>test.php%20</code></li>
+<li><code>test.php::$DATA.jpg</code>生成0.jpg，可利用文件包含</li>
+<li><code>test.php::$DATA\test.jpg</code>生成test.jpg，可利用文件包含</li>
+</ul>
+</blockquote>
+</li>
+</ol>
+<p>L4</p>
+<ol>
+<li><p>上传.htaccess文件绕过</p>
+<blockquote>
+<p><a href="https://www.apachehttpd.com/howto/htaccess.html">.htaccess文件_Apache中文文档</a></p>
+<p><a href="https://xz.aliyun.com/t/8267">Apache的.htaccess利用技巧 - 先知社区</a></p>
+<p><a href="https://www.anquanke.com/post/id/241147#h2-10">与 .htaccess 相关的奇淫技巧-安全客 - 安全资讯平台</a></p>
+</blockquote>
+</li>
+<li><p>windows系统命名绕过</p>
+</li>
+</ol>
+<p>L5</p>
+<ol>
+<li><p>windows系统命名绕过</p>
+</li>
+<li><p>大小写绕过</p>
+</li>
+<li><p>.user.ini绕过</p>
+<blockquote>
+<p><a href="https://www.php.net/manual/zh/configuration.file.per-user.php">PHP: .user.ini 文件 - Manual</a></p>
+<p><a href="https://www.php.net/manual/zh/ini.list.php">PHP: php.ini 配置选项列表 - Manual</a></p>
+<p><a href="https://wooyun.js.org/drops/user.ini%E6%96%87%E4%BB%B6%E6%9E%84%E6%88%90%E7%9A%84PHP%E5%90%8E%E9%97%A8.html">.user.ini文件构成的PHP后门 - phith0n</a></p>
+<p><a href="https://www.cnblogs.com/sijidou/p/13121301.html">.user.ini导致文件上传绕过 - sijidou - 博客园</a></p>
+<p><a href="https://xz.aliyun.com/t/12219">PHP代码审计-Ourphp任意文件上传漏洞(CNVD-2021-18284) - 先知社区</a></p>
+<p>(这么多是因为没看到太多高质量的文章，只能东捡西捡了)</p>
+</blockquote>
+</li>
+</ol>
+<p>L6</p>
+<p>后缀留空绕过（未作去空处理）</p>
+<p>L7</p>
+<p>windows系统命名绕过</p>
+<p>L8</p>
+<p>windows系统命名绕过</p>
+<p>L9</p>
+<p>windows系统命名绕过</p>
+<p>L10</p>
+<p>pphphp替换绕过</p>
+<h3 id="00截断"><a href="#00截断" class="headerlink" title="00截断"></a>00截断</h3><p>L11</p>
+<p>get 00截断绕过</p>
+<p><a href="http://www.admintony.com/%E5%85%B3%E4%BA%8E%E4%B8%8A%E4%BC%A0%E4%B8%AD%E7%9A%8400%E6%88%AA%E6%96%AD%E5%88%86%E6%9E%90.html">关于上传中的00截断分析 | AdminTony’s Blog</a></p>
+<p>L12</p>
+<p>post 00截断</p>
+<h3 id="上传图片马"><a href="#上传图片马" class="headerlink" title="上传图片马"></a>上传图片马</h3><blockquote>
+<p><a href="https://www.cnblogs.com/1ink/p/15101706.html">做一个图片马的四种方法(详细步骤) - 1ink - 博客园</a></p>
+<p><a href="https://www.fujieace.com/penetration-test/upload-labs-pass-16.html">Upload-Labs第Pass-16通关（二次渲染绕过） 详解 - 付杰博客</a></p>
+<p>文件幻数绕过：</p>
+<table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th>二进制值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">JPG</td>
+<td>FF D8 FF E0 00 10 4A 46 49 46</td>
+</tr>
+<tr>
+<td align="left">GIF</td>
+<td>47 49 46 38 39 61</td>
+</tr>
+<tr>
+<td align="left">PNG</td>
+<td>89 50 4E 47</td>
+</tr>
+<tr>
+<td align="left">TIF</td>
+<td>49 49 2A 00</td>
+</tr>
+<tr>
+<td align="left">BMP</td>
+<td>42 4D</td>
+</tr>
+</tbody></table>
+</blockquote>
+<p>L13</p>
+<p>上传图片马 + 文件包含漏洞</p>
+<p>L14</p>
+<p>上传图片马 + getimagesize()</p>
+<p>L15</p>
+<p>上传图片马 + exif_imagetype()</p>
+<p>L16</p>
+<p>上传图片马 + 二次渲染</p>
+<h3 id="条件竞争上传"><a href="#条件竞争上传" class="headerlink" title="条件竞争上传"></a>条件竞争上传</h3><blockquote>
+<p><a href="https://blog.51cto.com/u_15127507/3939249">文件上传之条件竞争_51CTO博客_文件上传条件竞争</a></p>
+</blockquote>
+<p>L17</p>
+<p>条件竞争上传绕过</p>
+<p>L18</p>
+<p>图片马绕过后竞争上传，还要求存在文件包含漏洞才能利用</p>
+<p>L19</p>
+<p>（先忽略掉存在的文件包含漏洞）</p>
+<ol>
+<li>利用CVE-2015-2348</li>
+<li>move_uploaded_file()的特性，忽略文件末尾的/.导致绕过</li>
+</ol>
+<p>L20</p>
+<p>数组绕过</p>
+<p>一些常见的php过滤函数：</p>
+]]></content>
+      <categories>
+        <category>CTF</category>
+      </categories>
   </entry>
   <entry>
     <title>数字电路复习</title>
@@ -1116,10 +1281,5 @@
       <tags>
         <tag>Digital circuits</tag>
       </tags>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2023/04/06/index/</url>
-    <content><![CDATA[]]></content>
   </entry>
 </search>
