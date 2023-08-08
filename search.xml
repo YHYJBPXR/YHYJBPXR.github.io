@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Hello World</title>
+    <url>/2023/04/07/Hello-World/</url>
+    <content><![CDATA[<h1 id="未竟之旅"><a href="#未竟之旅" class="headerlink" title="未竟之旅"></a>未竟之旅</h1><p>记录一下第一篇文章</p>
+<span id="more"></span>
+
+<h2 id="从0开始的部落格搭建"><a href="#从0开始的部落格搭建" class="headerlink" title="从0开始的部落格搭建"></a>从0开始的部落格搭建</h2><p>呃呃，很难说这个部落格，目前也算是能用起来了（能跑就是win）。</p>
+<p>说说搭建的历史吧，可能是因为懒（废话就是）本想着去年就搭起来的，但是去年自己啥也不懂（今年好像也是呜呜呜呜），瞎搞了一个服务器，但是弄了半天没弄出来，直接放弃。今年采用这个静态页面托管，上线效率确实快，弄了一两节课就好了。（然而diy弄了一天）</p>
+<p>目前就是，摁，在这里分享自己的技术学习吧（虽然我很菜的），以后可能考虑上线别的东西，可能是一些生活记录啥的（先鸽吧，鼠鼠是没有线虫生活的）</p>
+<p>瞎寄吧说了半天，希望这个博客能活得长一点，能多分享技术，暂定今年发表100篇技术博客捏~ (￣▽￣) ~*（虽然感觉会鸽，anyway，先把flag立在这了）</p>
+<hr>
+<h2 id="有关博客搭建的事项"><a href="#有关博客搭建的事项" class="headerlink" title="有关博客搭建的事项"></a>有关博客搭建的事项</h2><p>好吧进入正题，把这次搭建博客的一些经验感悟先记录在这，供自己和他人以后参考</p>
+<h3 id="可能需要了解的前置知识"><a href="#可能需要了解的前置知识" class="headerlink" title="可能需要了解的前置知识"></a>可能需要了解的前置知识</h3><p>什么是网站和网页？什么是服务器和域名？什么是……</p>
+<p>——互联网黑话初入门</p>
+<h3 id="我的博客配置"><a href="#我的博客配置" class="headerlink" title="我的博客配置"></a>我的博客配置</h3><p>目前采用的是Hexo</p>
+<h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><h3 id="其他插件"><a href="#其他插件" class="headerlink" title="其他插件"></a>其他插件</h3><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3>]]></content>
+      <categories>
+        <category>freeTalk</category>
+      </categories>
+      <tags>
+        <tag>talkingToMyself</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CVE-2022-29221复现</title>
     <url>/2023/05/16/CVE-2022-29221%E5%A4%8D%E7%8E%B0/</url>
     <content><![CDATA[<p>上周三WEB组的任务，白神真的会上压力，不过感觉复现一个CVE提升挺大的（特别是配环境环节，呵呵了），一下子弄懂了好多</p>
@@ -253,29 +276,6 @@
       </categories>
       <tags>
         <tag>CVE</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2023/04/07/Hello-World/</url>
-    <content><![CDATA[<h1 id="未竟之旅"><a href="#未竟之旅" class="headerlink" title="未竟之旅"></a>未竟之旅</h1><p>记录一下第一篇文章</p>
-<span id="more"></span>
-
-<h2 id="从0开始的部落格搭建"><a href="#从0开始的部落格搭建" class="headerlink" title="从0开始的部落格搭建"></a>从0开始的部落格搭建</h2><p>呃呃，很难说这个部落格，目前也算是能用起来了（能跑就是win）。</p>
-<p>说说搭建的历史吧，可能是因为懒（废话就是）本想着去年就搭起来的，但是去年自己啥也不懂（今年好像也是呜呜呜呜），瞎搞了一个服务器，但是弄了半天没弄出来，直接放弃。今年采用这个静态页面托管，上线效率确实快，弄了一两节课就好了。（然而diy弄了一天）</p>
-<p>目前就是，摁，在这里分享自己的技术学习吧（虽然我很菜的），以后可能考虑上线别的东西，可能是一些生活记录啥的（先鸽吧，鼠鼠是没有线虫生活的）</p>
-<p>瞎寄吧说了半天，希望这个博客能活得长一点，能多分享技术，暂定今年发表100篇技术博客捏~ (￣▽￣) ~*（虽然感觉会鸽，anyway，先把flag立在这了）</p>
-<hr>
-<h2 id="有关博客搭建的事项"><a href="#有关博客搭建的事项" class="headerlink" title="有关博客搭建的事项"></a>有关博客搭建的事项</h2><p>好吧进入正题，把这次搭建博客的一些经验感悟先记录在这，供自己和他人以后参考</p>
-<h3 id="可能需要了解的前置知识"><a href="#可能需要了解的前置知识" class="headerlink" title="可能需要了解的前置知识"></a>可能需要了解的前置知识</h3><p>什么是网站和网页？什么是服务器和域名？什么是……</p>
-<p>——互联网黑话初入门</p>
-<h3 id="我的博客配置"><a href="#我的博客配置" class="headerlink" title="我的博客配置"></a>我的博客配置</h3><p>目前采用的是Hexo</p>
-<h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><h3 id="其他插件"><a href="#其他插件" class="headerlink" title="其他插件"></a>其他插件</h3><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3>]]></content>
-      <categories>
-        <category>freeTalk</category>
-      </categories>
-      <tags>
-        <tag>talkingToMyself</tag>
       </tags>
   </entry>
   <entry>
@@ -746,11 +746,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title></title>
-    <url>/2023/04/06/index/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>一些杂项</title>
     <url>/2023/04/19/%E4%B8%80%E4%BA%9B%E6%9D%82%E9%A1%B9/</url>
     <content><![CDATA[<p> 一些无意发现的东西</p>
@@ -1121,5 +1116,10 @@
       <tags>
         <tag>Digital circuits</tag>
       </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2023/04/06/index/</url>
+    <content><![CDATA[]]></content>
   </entry>
 </search>
